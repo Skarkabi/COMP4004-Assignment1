@@ -9,7 +9,7 @@ import java.util.Random;
  *	setDiceFaces, used to initiate the dice faces
  *	rollDice, used to get a random dice face
  */
-public class Dice {
+public class DiceClass {
 	ArrayList<String> sides = new ArrayList<>(); //ArrayList representing the physical dice sides
 	
 	//This functions adds all sides to the ArrayList representing the physical dice sides
