@@ -11,9 +11,9 @@ public class diceTest extends TestCase {
 		ArrayList<String> dice = new ArrayList<>();
 		
 		while (skullCount != 3) {
-			dice = player.rollDice();
+			dice = player.firstRoll();
 			for(int i = 0; i < dice.size(); i++) {
-				if (dice.get(i).equals("skull")){
+				if (dice.get(i).equals("Skull")){
 					skullCount++;
 					
 				}
