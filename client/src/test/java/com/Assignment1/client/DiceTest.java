@@ -16,13 +16,34 @@ public class DiceTest extends TestCase {
 	public void test3Skull() {
 		PlayerClass player = new PlayerClass();
 		
-		while (player.getSkullCount() != 3) {
-			player.firstRoll(); }
+		while (player.getSkullCount() != 3) { player.firstRoll(); }
 		
 		assertEquals(3, player.getSkullCount());
 		assertEquals(false, player.getTurn());
 		
 			
+	}
+	
+	public void test1SkullFirst2SkullNext() {
+		PlayerClass player = new PlayerClass();
+		ArrayList<Integer> diceToReRoll = new ArrayList<>();
+		
+		diceToReRoll.add(1); diceToReRoll.add(2); diceToReRoll.add(3); diceToReRoll.add(4); diceToReRoll.add(5);
+		diceToReRoll.add(6); diceToReRoll.add(7); diceToReRoll.add(8);
+		
+		while (player.getSkullCount() != 3) {
+			while (player.getSkullCount() != 1) {
+				player.firstRoll();
+			
+			}
+			
+			player.reRoll(diceToReRoll);
+		
+		}
+		
+		assertEquals(3, player.getSkullCount());
+		assertEquals(false, player.getTurn());
+		
 	}
 	
 }

@@ -14,7 +14,7 @@ public class PlayerClass {
 	//This function is used to roll all 8 dice only on the first roll of a players turn
 	//It does this by first making sure the dice ArrayList is cleared, then creating an instance of the dice class, & finally
 	//rolling that instance 8 separate times and records the outcome of each dice in the PlayerClass's dice property
-	public ArrayList<String> firstRoll() {
+	public void firstRoll() {
 		skullCount = 0;
 		turn = true;
 		dice.clear();
@@ -33,7 +33,7 @@ public class PlayerClass {
 			
 		}
 		
-		return dice;
+		
 	}
 	
 	public ArrayList<String> getDice(){ return dice; }
