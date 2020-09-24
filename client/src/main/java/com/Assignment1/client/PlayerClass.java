@@ -15,6 +15,7 @@ public class PlayerClass {
 	//It does this by first making sure the dice ArrayList is cleared, then creating an instance of the dice class, & finally
 	//rolling that instance 8 separate times and records the outcome of each dice in the PlayerClass's dice property
 	public ArrayList<String> firstRoll() {
+		skullCount = 0;
 		turn = true;
 		dice.clear();
 		DiceClass die = new DiceClass();
@@ -38,6 +39,7 @@ public class PlayerClass {
 	public ArrayList<String> getDice(){ return dice; }
 	public int getScore() { return score; }
 	public boolean getTurn() { return turn; }
+	public int getSkullCount() { return skullCount; }
 	
 	
 }
