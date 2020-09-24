@@ -50,4 +50,27 @@ public class DiceTest extends TestCase {
 		
 	}
 	
+	//Test Case to check that the player rolls 2 skulls on the first roll, then another on the re-roll
+	//This test case works almost exactly like test1SkullFirst2SkullNext() with the only difference being the inner loop
+	//now checks to make sure 2 skulls were registered in the first roll instead of 1
+	public void test2SkullFirst1SkullNext() {
+		PlayerClass player = new PlayerClass();
+		ArrayList<Integer> diceToReRoll = new ArrayList<>();
+		
+		//Populating the array to simulate the player trying to re-roll all the dice, but since the function only re-rolls
+		//if the selected dice is not a skull, it does not affect the first skull rolled
+		diceToReRoll.add(1); diceToReRoll.add(2); diceToReRoll.add(3); diceToReRoll.add(4); diceToReRoll.add(5);
+		diceToReRoll.add(6); diceToReRoll.add(7); diceToReRoll.add(8);
+		
+		while (player.getSkullCount() != 3) {
+			while (player.getSkullCount() != 2) { player.firstRoll(); }
+			player.reRoll(diceToReRoll);
+		
+		}
+		
+		assertEquals(3, player.getSkullCount());
+		assertEquals(false, player.getTurn());
+		
+	}
+	
 }
