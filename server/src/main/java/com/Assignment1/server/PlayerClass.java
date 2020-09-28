@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 //This class is used to represent the player
 //It keeps track of a players dice, score, & takes care of all player interactions
 public class PlayerClass implements Serializable {
@@ -19,6 +20,7 @@ public class PlayerClass implements Serializable {
 	static Client clientConnection;
 	PlayerClass[] players = new PlayerClass[3];
 	String name = new String();
+	int numP = 0;
 	
 	 public static void main( String[] args ) throws Exception{
 		 Scanner myObj = new Scanner(System.in);
@@ -27,6 +29,7 @@ public class PlayerClass implements Serializable {
 			PlayerClass p = new PlayerClass(name);
 			p.initializePlayers();
 			p.connectToClient();
+			p.startGame();
 	
 
 	 }
@@ -49,6 +52,19 @@ public class PlayerClass implements Serializable {
 	
 	public PlayerClass getPlayer() {
 		return this;
+	}
+	
+	public void startGame() {
+		// receive players once for names
+		numP = clientConnection.receiveInt();
+		players = clientConnection.receivePlayer();
+		
+		
+			for (int i = 0; i < players.length; i++) {
+				System.out.println("Player Name is " + players[i].name);
+			
+		}
+	
 	}
 	
 	
@@ -103,6 +119,64 @@ public class PlayerClass implements Serializable {
 				ex.printStackTrace();
 			}
 		}
+		
+		public int receiveRoundNo() {
+			try {
+				int rt = jIn.readInt();
+				System.out.println("Received " + rt);
+				return rt;
+
+			} catch (IOException e) {
+				System.out.println("Score sheet not received in round");
+				e.printStackTrace();
+			}
+			return 0;
+		}
+		
+		public int receiveInt() {
+			try {
+				System.out.println("Received int");
+				return jIn.readInt();
+				
+
+			} catch (IOException e) {
+				System.out.println("Score sheet not received int");
+				e.printStackTrace();
+			}
+			return 0;
+		}
+		
+		public PlayerClass[] receivePlayer() {
+			PlayerClass[] pl = new PlayerClass[numP];
+			PlayerClass p = new PlayerClass(" ");
+			try {
+				for(int i = 0; i < pl.length; i++) {
+					p = (PlayerClass) jIn.readObject();
+					pl[i] = p;
+				}
+				
+				System.out.println("Players received:");
+				
+				return pl;
+
+			} catch (IOException e) {
+				System.out.println("Score sheet not received player");
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				System.out.println("class not found");
+				e.printStackTrace();
+			}
+			return pl;
+		}
+		
+		/*private PlayerClass[] convertArrayList(ArrayList<PlayerClass> p) {
+			PlayerClass[] player = new PlayerClass[p.size()];
+			for(int i = 0; i < p.size(); i++) {
+				player[i] = p.get(i);
+				
+			}
+			return player;
+		}*/
 		
 	}
 	

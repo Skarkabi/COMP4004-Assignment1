@@ -12,9 +12,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-
-
-
 //This class is used to connect, receive, & send data to the Client
 //All information sent or received from the Clients are dealt with here
 public class MainServer implements Serializable 
@@ -32,21 +29,16 @@ public class MainServer implements Serializable
 	
 	int numPlayers;
 	static int numConnectionNeeded;
-	 public static void main( String[] args ) throws Exception
-	    {
-	       
-	    	System.out.print("How many players are connected? ");
-	    	Scanner sc = new Scanner(System.in);
-	    	int numPlayer = sc.nextInt();
-			MainServer server = new MainServer(numPlayer);
-			server.ConnectToClients();
-		   
-		    
-			//client.ConnectToClients();
-	       
-	       
-	       
-	    }
+	public static void main( String[] args ) throws Exception {
+		System.out.print("How many players are connected? ");
+	    Scanner sc = new Scanner(System.in);
+	    int numPlayer = sc.nextInt();
+		MainServer server = new MainServer(numPlayer);
+		server.ConnectToClients();   
+		server.gameLoop();
+			
+	}
+	
 	public MainServer(int numPlayersToConnect) throws ClassNotFoundException {
 		playerServer = new Server[numPlayersToConnect];
 		players = new PlayerClass[numPlayersToConnect];
@@ -103,7 +95,38 @@ public class MainServer implements Serializable
 		
 		}
 		
+		
 	}
+	
+	public void gameLoop() {
+		int count = 0;
+		try {
+			for(int i = 0; i < playerServer.length; i++) {
+				playerServer[i].sendInt(numPlayers);
+				playerServer[i].sendPlayers(players);
+			
+			}
+			
+			while(!finalTurn) {
+				System.out.println("*****************************************");
+				System.out.println("Round number " + turnsMade);
+				turnsMade++;
+				if(turnsMade == 2) {
+				finalTurn = true;
+				}
+				
+			}
+			
+			
+			playerServer[0].sendTurnNo(-1);
+			playerServer[1].sendTurnNo(-1);
+			
+		}catch (Exception e) {
+			
+		}
+	}
+	
+	
 	
 	
 	
@@ -142,32 +165,7 @@ public class MainServer implements Serializable
 		
 		}
 		
-		public void sendPlayers(String[] p) {
-			try {
-				for(String pl: p) {
-					jOut.writeObject(p);
-					jOut.flush();
-					
-				}
-				
-			}catch (IOException e) {
-				System.out.println("Score sheet not sent");
-				e.printStackTrace();
-			}
-		}
 		
-		public void sendTurnNo(int t) {
-			try {
-				jOut.writeInt(t);
-				jOut.flush();
-				
-			}catch (Exception e) {
-				System.out.println("Score sheet not received");
-				e.printStackTrace();
-				
-			}
-			
-		}
 		
 		public int[] receiveScores() {
 			try {
@@ -199,6 +197,42 @@ public class MainServer implements Serializable
 			
 			return "";
 			
+		}
+		
+		public void sendPlayers(PlayerClass[] pl) {
+			System.out.println("Sending players");
+			try {
+				for (PlayerClass p : pl) {
+					jOut.writeObject(p);
+					jOut.flush();
+				}
+
+			} catch (IOException ex) {
+				System.out.println("Score sheet not sent");
+				ex.printStackTrace();
+			}
+
+		}
+		
+		public void sendTurnNo(int r) {
+			try {
+				System.out.println("sending turn number");
+				jOut.writeInt(r);
+				jOut.flush();
+			} catch (Exception e) {
+				System.out.println("Score sheet not received");
+				e.printStackTrace();
+			}
+		}
+		
+		public void sendInt(int r) {
+			try {
+				jOut.writeInt(r);
+				jOut.flush();
+			} catch (Exception e) {
+				System.out.println("Score sheet not received");
+				e.printStackTrace();
+			}
 		}
 		
 		
