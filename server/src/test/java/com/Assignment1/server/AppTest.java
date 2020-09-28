@@ -9,12 +9,17 @@ import org.junit.Test;
  */
 public class AppTest 
 {
+	
+	Game game = new Game();
     /**
      * Rigorous Test :-)
      */
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
+    public void Skulls3Returned(){
+    	String[] dieRoll = {"Skull", "Skull", "Skull", "Coin", "Parrot", "Sword", "Diamond", "Sword"};
+    	assertEquals(3, game.getSkulls(dieRoll));
+    	assertTrue(game.turnOver(dieRoll));
+    	
     }
+    
 }
