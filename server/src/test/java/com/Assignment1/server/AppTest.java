@@ -24,6 +24,7 @@ public class AppTest
     	p.setGame(game);
     	assertEquals(0, p.getScore());
     	assertEquals(3, p.getGame().getSymbolCount("Skull"));
+    	assertTrue(p.getGame().isTurnOver());
     	assertTrue(game.isDead());
     	
     }
@@ -39,6 +40,7 @@ public class AppTest
     	assertEquals(3, p.getGame().getSymbolCount("Sword"));
     	
     	assertEquals(300,p.getScore());
+    	assertFalse(p.getGame().isTurnOver());
     	assertFalse(p.getGame().isDead());
     	
     	String[] dieRoll2 = {"Skull", "Parrot", "Parrot", "Parrot", "Parrot", "Skull", "Sword", "Skull"};
@@ -48,6 +50,7 @@ public class AppTest
     	assertEquals(1, p.getGame().getSymbolCount("Sword"));
     	
     	assertEquals(0, p.getScore());
+    	assertTrue(p.getGame().isTurnOver());
     	assertTrue(p.getGame().isDead());
     	
     }
@@ -63,6 +66,7 @@ public class AppTest
     	assertEquals(2, p.getGame().getSymbolCount("Sword"));
     	
     	assertEquals(200,p.getScore());
+    	assertFalse(p.getGame().isTurnOver());
     	assertFalse(p.getGame().isDead());
     	
     	String[] dieRoll2 = {"Skull", "Parrot", "Parrot", "Parrot", "Parrot", "Skull", "Sword", "Skull"};
@@ -72,6 +76,7 @@ public class AppTest
     	assertEquals(1, p.getGame().getSymbolCount("Sword"));
     	
     	assertEquals(0, p.getScore());
+    	assertTrue(p.getGame().isTurnOver());
     	assertTrue(p.getGame().isDead());
     	
     }
@@ -86,6 +91,7 @@ public class AppTest
     	assertEquals(4, p.getGame().getSymbolCount("Parrot"));
     	assertEquals(3, p.getGame().getSymbolCount("Sword"));
     	
+    	assertFalse(p.getGame().isTurnOver());
     	assertEquals(300,p.getScore());
     	assertFalse(p.getGame().isDead());
     	
@@ -95,6 +101,7 @@ public class AppTest
     	assertEquals(4, p.getGame().getSymbolCount("Parrot"));
     	assertEquals(2, p.getGame().getSymbolCount("Monkey"));
     	
+    	assertFalse(p.getGame().isTurnOver());
     	assertEquals(200, p.getScore());
     	assertFalse(p.getGame().isDead());
     	
@@ -104,8 +111,27 @@ public class AppTest
     	assertEquals(4, p.getGame().getSymbolCount("Parrot"));
     	assertEquals(1, p.getGame().getSymbolCount("Monkey"));
     	
+    	assertTrue(p.getGame().isTurnOver());
     	assertEquals(0, p.getScore());
     	assertTrue(p.getGame().isDead());
+    	
+    }
+    
+    @Test
+    public void testRow53() {
+    	String[] dieRoll = {"Coin", "Coin", "Diamond", "Diamond", "Parrot", "Sword", "Monkey", "Skull"};
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setCurrentRoll(dieRoll);
+    	game.setFortuneCard("FC");
+    	game.setTurn(false);
+    	assertEquals(2, p.getGame().getSymbolCount("Coin"));
+    	assertEquals(2, p.getGame().getSymbolCount("Diamond"));
+    	assertEquals("FC", p.getGame().getFortuneCard());
+    	assertEquals(800, p.getScore());
+    	assertFalse(p.getGame().isDead());
+    	assertTrue(p.getGame().isTurnOver());
+    	
     	
     }
     
