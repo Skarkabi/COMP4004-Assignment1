@@ -74,7 +74,7 @@ public class MainServer implements Serializable
 				server.jOut.flush();
 				
 				PlayerClass in = (PlayerClass) server.jIn.readObject();
-				System.out.println("Player " + server.pId + " ~ " + in.name + " ~ has joined");
+				System.out.println("Player " + server.pId + " ~ " + in.getName() + " ~ has joined");
 				
 			
 				players[server.pId - 1] = in;
@@ -100,6 +100,8 @@ public class MainServer implements Serializable
 	
 	public void gameLoop() {
 		int count = 0;
+		int topScore = 0;
+		
 		try {
 			for(int i = 0; i < playerServer.length; i++) {
 				playerServer[i].sendInt(numPlayers);
@@ -108,18 +110,39 @@ public class MainServer implements Serializable
 			}
 			
 			while(!finalTurn) {
+				turnsMade++;
 				System.out.println("*****************************************");
 				System.out.println("Round number " + turnsMade);
-				turnsMade++;
-				if(turnsMade == 2) {
-				finalTurn = true;
+				for(int i = 0; i < playerServer.length; i++) {
+					playerServer[i].sendTurnNo(turnsMade);
+					
 				}
+				
+				if(turnsMade == -1) {
+					finalTurn = true;
+				
+				}
+				
+			    for(int i = 0; i < players.length; i++) {
+			    	if(players[i].getScore() > topScore) {
+			    		topScore = players[i].getScore();
+			    		
+			    	}
+			    	
+			    }
+			    
+			    if(topScore >= 6000) {
+			    	turnsMade = -1;
+			    	
+			    }
 				
 			}
 			
 			
-			playerServer[0].sendTurnNo(-1);
-			playerServer[1].sendTurnNo(-1);
+			for(int i = 0; i < playerServer.length; i++) {
+				playerServer[i].sendTurnNo(-1);
+				
+			}
 			
 		}catch (Exception e) {
 			
