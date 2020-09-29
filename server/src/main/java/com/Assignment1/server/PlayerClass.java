@@ -196,6 +196,7 @@ public class PlayerClass implements Serializable {
 	private void handleFC(String fc) {
 		if(fc.equals("CA")) {
 			handleCA(tempScore);
+			
 		}
 		
 	}
@@ -206,7 +207,6 @@ public class PlayerClass implements Serializable {
 		
 		
 	}
-	
 	
 	
 	public class Client{

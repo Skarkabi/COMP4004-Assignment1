@@ -18,6 +18,12 @@ public class Game implements Serializable {
 			}
 		}
 		
+		if((s.equals("Coin") && FC.equals("CO"))) {
+			count++;
+			
+		}
+		
+		
 		return count;
 	}
 	
