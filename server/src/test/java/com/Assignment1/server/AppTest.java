@@ -2,6 +2,7 @@ package com.Assignment1.server;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -169,6 +170,30 @@ public class AppTest
     	game.setTurn(false);
     	assertEquals(3, p.getGame().getSymbolCount("Monkey"));
     	assertEquals(3, p.getGame().getSymbolCount("Sword"));
+    	assertEquals(300, p.getScore());
+    	assertFalse(p.getGame().isDead());
+    	assertTrue(p.getGame().isTurnOver());
+    	
+    }
+    
+    @Test
+    public void testRow56() {
+    	String[] dieRoll = {"Monkey", "Monkey", "Skull", "Sword", "Parrot", "Sword", "Parrot", "Skull"};
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setCurrentRoll(dieRoll);
+    	game.setFortuneCard("CO");
+    	assertNotEquals(3, p.getGame().getSymbolCount("Monkey"));
+    	assertNotEquals(3, p.getGame().getSymbolCount("Parrot"));
+    	assertEquals(100, p.getScore());
+    	assertFalse(p.getGame().isDead());
+    	assertFalse(p.getGame().isTurnOver());
+    	
+    	String[] dieRoll2 = {"Monkey", "Monkey", "Skull", "Monkey", "Parrot", "Parrot", "Parrot", "Skull"};
+    	game.setCurrentRoll(dieRoll2);
+    	game.setTurn(false);
+    	assertEquals(3, p.getGame().getSymbolCount("Monkey"));
+    	assertEquals(3, p.getGame().getSymbolCount("Parrot"));
     	assertEquals(300, p.getScore());
     	assertFalse(p.getGame().isDead());
     	assertTrue(p.getGame().isTurnOver());
