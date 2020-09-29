@@ -127,7 +127,7 @@ public class AppTest
     	game.setTurn(false);
     	assertEquals(2, p.getGame().getSymbolCount("Coin"));
     	assertEquals(2, p.getGame().getSymbolCount("Diamond"));
-    	assertEquals("FC", p.getGame().getFortuneCard());
+    	assertEquals("CA", p.getGame().getFortuneCard());
     	assertEquals(800, p.getScore());
     	assertFalse(p.getGame().isDead());
     	assertTrue(p.getGame().isTurnOver());
