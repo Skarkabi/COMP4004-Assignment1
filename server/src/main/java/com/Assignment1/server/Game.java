@@ -11,7 +11,7 @@ public class Game implements Serializable {
 	public int getSymbolCount(String s) {
 		int count = 0;
 		
-		for(int i = 0; i < 7; i++) {
+		for(int i = 0; i < currentRoll.length; i++) {
 			if(currentRoll[i].equals(s)) {
 				count++;
 			}

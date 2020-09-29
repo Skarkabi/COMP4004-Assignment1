@@ -17,14 +17,38 @@ public class AppTest
      * Rigorous Test :-)
      */
     @Test
-    public void Skulls3Returned(){
+    public void testRow48(){
     	String[] dieRoll = {"Skull", "Skull", "Skull", "Coin", "Parrot", "Sword", "Diamond", "Sword"};
     	game.setCurrentRoll(dieRoll);
     	PlayerClass p = new PlayerClass("");
     	p.setGame(game);
     	assertEquals(0, p.getScore());
-    	assertEquals(3, game.getSymbolCount("Skull"));
+    	assertEquals(3, p.getGame().getSymbolCount("Skull"));
     	assertTrue(game.isDead());
+    	
+    }
+    
+    @Test
+    public void testRow49() {
+    	String[] dieRoll = {"Skull", "Parrot", "Parrot", "Parrot", "Parrot", "Sword", "Sword", "Sword"};
+    	PlayerClass p = new PlayerClass("");
+    	game.setCurrentRoll(dieRoll);
+    	p.setGame(game);
+    	assertEquals(1, p.getGame().getSymbolCount("Skull"));
+    	assertEquals(4, p.getGame().getSymbolCount("Parrot"));
+    	assertEquals(3, p.getGame().getSymbolCount("Sword"));
+    	
+    	assertEquals(300,p.getScore());
+    	assertFalse(p.getGame().isDead());
+    	
+    	String[] dieRoll2 = {"Skull", "Parrot", "Parrot", "Parrot", "Parrot", "Skull", "Sword", "Skull"};
+    	game.setCurrentRoll(dieRoll2);
+    	assertEquals(3, p.getGame().getSymbolCount("Skull"));
+    	assertEquals(4, p.getGame().getSymbolCount("Parrot"));
+    	assertEquals(1, p.getGame().getSymbolCount("Sword"));
+    	
+    	assertEquals(300, p.getScore());
+    	assertTrue(p.getGame().isDead());
     	
     }
     

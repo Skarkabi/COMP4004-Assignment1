@@ -38,6 +38,7 @@ public class PlayerClass implements Serializable {
 			//p.startGame();
 			Game g = p.getGame();
 			String[] dieRoll = {"Parrot", "Skull", "Skull", "Parrot", "Parrot", "Sword", "Diamond", "Sword"};
+	    
 			g.setCurrentRoll(dieRoll);
 			p.setGame(g);
 			System.out.println(p.getGame().getSymbolCount("Skull"));
