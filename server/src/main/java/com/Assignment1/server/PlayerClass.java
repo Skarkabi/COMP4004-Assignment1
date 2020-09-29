@@ -26,6 +26,7 @@ public class PlayerClass implements Serializable {
 	
 	int numP = 0;
 	private int score = 0;
+	private int tempScore = 0;
 	private int[] scoreSheet = new int[7];
 	
 	 public static void main( String[] args ) throws Exception{
@@ -142,7 +143,7 @@ public class PlayerClass implements Serializable {
 	}
 	
 	public int scoreRound() {
-		int tempScore = 0;
+		tempScore = 0;
 		if(!(game.isDead())) {
 			int[] rCounts = new int[5];
 			int[] sCounts = new int[2];
@@ -187,7 +188,23 @@ public class PlayerClass implements Serializable {
 			
 		}
 		
+		handleFC(game.getFortuneCard());
+		System.out.println("Here " + tempScore);
 		return tempScore;
+	}
+	
+	private void handleFC(String fc) {
+		if(fc.equals("CA")) {
+			handleCA(tempScore);
+		}
+		
+	}
+	
+	private void handleCA(int newScore) {
+		tempScore = newScore * 2;
+		System.out.println("score " + newScore);
+		
+		
 	}
 	
 	

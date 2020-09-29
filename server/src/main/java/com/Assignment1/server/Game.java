@@ -43,8 +43,6 @@ public class Game implements Serializable {
 			return true;
 			
 		}else {
-			turnOver = false;
-			
 			return false;
 		}
 		
