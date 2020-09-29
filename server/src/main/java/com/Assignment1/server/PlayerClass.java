@@ -136,13 +136,14 @@ public class PlayerClass implements Serializable {
 			}
 		}
 		
-		scoreRound();
+		score = score + scoreRound();
 		return game.getOutCome(); 
 		
 	}
 	
 	public int scoreRound() {
-		if(!(game.getSymbolCount("Skull") >= 3)) {
+		int tempScore = 0;
+		if(!(game.isDead())) {
 			int[] rCounts = new int[5];
 			int[] sCounts = new int[2];
 			int sCount = game.getSymbolCount("Sword");
@@ -159,22 +160,22 @@ public class PlayerClass implements Serializable {
 			
 			for(int i = 0; i < rCounts.length; i++) {
 				if(rCounts[i] == 3) {
-					score = score + 100;
+					tempScore = tempScore + 100;
 					
 				}else if(rCounts[i] == 4) {
-					score = score + 200;
+					tempScore = tempScore + 200;
 					
 				}else if(rCounts[i] == 5) {
-					score = score + 500;
+					tempScore = tempScore + 500;
 					
 				}else if(rCounts[i] == 6) {
-					score = score + 1000;
+					tempScore = tempScore + 1000;
 					
 				}else if(rCounts[i] == 7) {
-					score = score + 2000;
+					tempScore = tempScore + 2000;
 					
 				}else if(rCounts[i] == 8) {
-					score = score + 4000;
+					tempScore = tempScore + 4000;
 					
 				}
 				
@@ -182,11 +183,11 @@ public class PlayerClass implements Serializable {
 			
 			int cBonus = 100 * cCount;
 			int dBonus = 100 * dCount;
-			score = score + cBonus + dBonus;
+			tempScore = tempScore + cBonus + dBonus;
 			
 		}
 		
-		return score;
+		return tempScore;
 	}
 	
 	
