@@ -123,7 +123,7 @@ public class AppTest
     	PlayerClass p = new PlayerClass("");
     	p.setGame(game);
     	game.setCurrentRoll(dieRoll);
-    	game.setFortuneCard("FC");
+    	game.setFortuneCard("CA");
     	game.setTurn(false);
     	assertEquals(2, p.getGame().getSymbolCount("Coin"));
     	assertEquals(2, p.getGame().getSymbolCount("Diamond"));
