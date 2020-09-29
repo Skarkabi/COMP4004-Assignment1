@@ -47,7 +47,7 @@ public class AppTest
     	assertEquals(4, p.getGame().getSymbolCount("Parrot"));
     	assertEquals(1, p.getGame().getSymbolCount("Sword"));
     	
-    	assertEquals(200, p.getScore());
+    	assertEquals(0, p.getScore());
     	assertTrue(p.getGame().isDead());
     	
     }
@@ -71,7 +71,7 @@ public class AppTest
     	assertEquals(4, p.getGame().getSymbolCount("Parrot"));
     	assertEquals(1, p.getGame().getSymbolCount("Sword"));
     	
-    	assertEquals(200, p.getScore());
+    	assertEquals(0, p.getScore());
     	assertTrue(p.getGame().isDead());
     	
     }
@@ -96,6 +96,15 @@ public class AppTest
     	assertEquals(2, p.getGame().getSymbolCount("Monkey"));
     	
     	assertEquals(200, p.getScore());
+    	assertFalse(p.getGame().isDead());
+    	
+    	String[] dieRoll3 = {"Skull", "Parrot", "Parrot", "Parrot", "Parrot", "Monkey", "Skull", "Skull"};
+    	game.setCurrentRoll(dieRoll3);
+    	assertEquals(3, p.getGame().getSymbolCount("Skull"));
+    	assertEquals(4, p.getGame().getSymbolCount("Parrot"));
+    	assertEquals(1, p.getGame().getSymbolCount("Monkey"));
+    	
+    	assertEquals(0, p.getScore());
     	assertTrue(p.getGame().isDead());
     	
     }
