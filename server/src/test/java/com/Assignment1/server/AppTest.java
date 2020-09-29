@@ -47,7 +47,7 @@ public class AppTest
     	assertEquals(4, p.getGame().getSymbolCount("Parrot"));
     	assertEquals(1, p.getGame().getSymbolCount("Sword"));
     	
-    	assertEquals(300, p.getScore());
+    	assertEquals(200, p.getScore());
     	assertTrue(p.getGame().isDead());
     	
     }
