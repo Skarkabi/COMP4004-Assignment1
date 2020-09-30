@@ -27,6 +27,7 @@ public class PlayerClass implements Serializable {
 	int numP = 0;
 	private int score = 0;
 	private int tempScore = 0;
+	private int diceUsed = 0;
 	private int[] scoreSheet = new int[7];
 	
 	 public static void main( String[] args ) throws Exception{
@@ -144,6 +145,7 @@ public class PlayerClass implements Serializable {
 	
 	public int scoreRound() {
 		tempScore = 0;
+		diceUsed = 0;
 		if(!(game.isDead())) {
 			int[] rCounts = new int[5];
 			int[] sCounts = new int[2];
@@ -162,20 +164,26 @@ public class PlayerClass implements Serializable {
 			for(int i = 0; i < rCounts.length; i++) {
 				if(rCounts[i] == 3) {
 					tempScore = tempScore + 100;
+					diceUsed = diceUsed + 3;
 					
 				}else if(rCounts[i] == 4) {
 					tempScore = tempScore + 200;
+					diceUsed = diceUsed + 4;
 					
 				}else if(rCounts[i] == 5) {
 					tempScore = tempScore + 500;
+					diceUsed = diceUsed + 5;
 					
 				}else if(rCounts[i] == 6) {
 					tempScore = tempScore + 1000;
+					diceUsed = diceUsed + 6;
 					
 				}else if(rCounts[i] == 7) {
+					diceUsed = diceUsed + 7;
 					tempScore = tempScore + 2000;
 					
-				}else if(rCounts[i] == 8) {
+				}else if(rCounts[i] >= 8) {
+					diceUsed = diceUsed + 8;
 					tempScore = tempScore + 4000;
 					
 				}
@@ -185,6 +193,11 @@ public class PlayerClass implements Serializable {
 			int cBonus = 100 * cCount;
 			int dBonus = 100 * dCount;
 			tempScore = tempScore + cBonus + dBonus;
+			
+		}
+		
+		if(game.fullChest(diceUsed)) {
+			tempScore = tempScore + 500;
 			
 		}
 		

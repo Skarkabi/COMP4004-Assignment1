@@ -28,6 +28,22 @@ public class Game implements Serializable {
 		return count;
 	}
 	
+	public boolean fullChest(int d) {
+		if((FC.equals("CO") && getSymbolCount("Coin") != 9) || 
+				(FC.equals("DI") && getSymbolCount("Diamond") != 9)) {
+			d = d - 1;
+		}
+		
+		System.out.println(d);
+		
+		if(d == 8) {
+			return true;
+			
+		}else {
+			return false;
+		}
+	}
+	
 	
 	public void setFortuneCard(String fc) { FC = fc; }
 	
