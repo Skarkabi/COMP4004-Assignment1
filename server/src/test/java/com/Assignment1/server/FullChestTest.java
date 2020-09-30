@@ -40,5 +40,20 @@ public class FullChestTest {
     	assertFalse(game.isDead());
     	
     }
+    
+    @Test
+    public void testRow103(){
+    	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Sword", "Diamond"};
+    	game.setCurrentRoll(dieRoll);
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setTurn(false);
+    	game.setFortuneCard("CO");
+    	
+    	assertEquals(1000, p.getScore());
+    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
+    	
+    }
 
 }
