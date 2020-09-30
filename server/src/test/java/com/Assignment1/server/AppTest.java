@@ -439,4 +439,43 @@ public class AppTest
     	assertTrue(p.getGame().isTurnOver());
     }
     
+    @Test
+    public void testRow68() {
+    	String[] dieRoll = {"Monkey", "Parrot", "Monkey", "Parrot", "Monkey", "Coin", "Coin", "Parrot"};
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setCurrentRoll(dieRoll);
+    	game.setFortuneCard("CO");
+    	
+    	assertNotEquals(8, p.getGame().getSymbolCount("Monkey"));
+    	assertFalse(p.getGame().isDead());
+    	assertFalse(p.getGame().isTurnOver());
+    	
+    	String[] dieRoll2 = {"Monkey", "Monkey", "Monkey", "Parrot", "Monkey", "Coin", "Coin", "Monkey"};
+    	game.setCurrentRoll(dieRoll2);
+    	
+    	assertNotEquals(8, p.getGame().getSymbolCount("Monkey"));
+    	assertFalse(p.getGame().isDead());
+    	assertFalse(p.getGame().isTurnOver());
+    	
+
+    	String[] dieRoll3 = {"Monkey", "Monkey", "Monkey", "Parrot", "Monkey", "Monkey", "Monkey", "Monkey"};
+    	game.setCurrentRoll(dieRoll3);
+    	
+    	assertNotEquals(8, p.getGame().getSymbolCount("Monkey"));
+    	assertFalse(p.getGame().isDead());
+    	assertFalse(p.getGame().isTurnOver());
+    	
+    	String[] dieRoll4 = {"Monkey", "Monkey", "Monkey", "Monkey", "Monkey", "Monkey", "Monkey", "Monkey"};
+    	game.setCurrentRoll(dieRoll4);
+    	p.getGame().setTurn(false);
+    	
+    	assertEquals(8, p.getGame().getSymbolCount("Monkey"));
+    	assertEquals(4600, p.getScore());
+    	assertFalse(p.getGame().isDead());
+    	assertTrue(p.getGame().isTurnOver());
+    	
+    	
+    }
+    
 }
