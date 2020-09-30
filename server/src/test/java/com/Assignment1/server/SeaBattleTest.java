@@ -21,6 +21,7 @@ public class SeaBattleTest {
     	
     	p.setGame(game);
     	game.setFortuneCard("SB2300");
+    	game.setTurn(false);
     	
     	assertEquals(0, p.getScore());
     	assertTrue(game.getSymbolCount("Sword") < 2);
@@ -36,8 +37,11 @@ public class SeaBattleTest {
     	PlayerClass p = new PlayerClass("");
     	p.setScore(500);
     	assertEquals(500, p.getScore());
+    	
     	p.setGame(game);
     	game.setFortuneCard("SB3500");
+    	game.setTurn(false);
+    	
     	
     	assertEquals(0, p.getScore());
     	assertTrue(game.getSymbolCount("Sword") < 3);
@@ -53,8 +57,11 @@ public class SeaBattleTest {
     	PlayerClass p = new PlayerClass("");
     	p.setScore(1000);
     	assertEquals(1000, p.getScore());
+    	
     	p.setGame(game);
     	game.setFortuneCard("SB41000");
+    	game.setTurn(false);
+    	
     	
     	assertEquals(0, p.getScore());
     	assertTrue(game.getSymbolCount("Sword") < 4);
@@ -147,6 +154,35 @@ public class SeaBattleTest {
     
     	assertTrue(game.getSymbolCount("Sword") >= 4);
     	assertEquals(1300, p.getScore());
+    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
+    	
+    }
+    
+    @Test
+    public void testRow129(){
+    	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Skull", "Diamond", "Parrot", "Parrot"};
+    	game.setCurrentRoll(dieRoll);
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setFortuneCard("SB41000");
+    
+    	assertTrue(game.getSymbolCount("Sword") < 4);
+    	assertFalse(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
+    	
+    	String[] dieRoll2 = {"Monkey", "Monkey", "Monkey", "Sword", "Skull", "Diamond", "Sword", "Sword"};
+    	game.setCurrentRoll(dieRoll2);
+    	
+    	assertTrue(game.getSymbolCount("Sword") < 4);
+    	assertFalse(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
+    	
+    	String[] dieRoll3 = {"Sword", "Parrot", "Parrot", "Sword", "Skull", "Diamond", "Sword", "Sword"};
+    	game.setCurrentRoll(dieRoll3);
+    	
+    	assertEquals(1300, p.getScore());
+    	assertTrue(game.getSymbolCount("Sword") >= 4);
     	assertTrue(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
