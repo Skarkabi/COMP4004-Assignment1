@@ -76,5 +76,27 @@ public class SeaBattleTest {
     	assertTrue(game.isDead());
     	
     }
+    
+    @Test
+    public void testRow123(){
+    	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Monkey", "Sword", "Skull", "Parrot", "Parrot"};
+    	game.setCurrentRoll(dieRoll);
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setFortuneCard("SB2300");
+    
+    	assertTrue(game.getSymbolCount("Sword") < 2);
+    	assertTrue(p.getGame().isTurnOver());
+    	assertTrue(game.isDead());
+    	
+    	String[] dieRoll2 = {"Monkey", "Monkey", "Monkey", "Monkey", "Sword", "Skull", "Sword", "Skull"};
+    	game.setCurrentRoll(dieRoll2);
+    	
+    	assertTrue(game.getSymbolCount("Sword") >= 2);
+    	assertEquals(500, p.getScore());
+    	assertTrue(p.getGame().isTurnOver());
+    	assertTrue(game.isDead());
+    	
+    }
 
 }
