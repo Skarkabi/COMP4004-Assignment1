@@ -61,5 +61,20 @@ public class SeaBattleTest {
     	assertTrue(game.isDead());
     	
     }
+    
+    @Test
+    public void testRow121(){
+    	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Coin", "Parrot", "Parrot"};
+    	game.setCurrentRoll(dieRoll);
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setFortuneCard("SB2300");
+    	
+    	assertEquals(500, p.getScore());
+    	assertTrue(game.getSymbolCount("Sword") >= 2);
+    	assertTrue(p.getGame().isTurnOver());
+    	assertTrue(game.isDead());
+    	
+    }
 
 }
