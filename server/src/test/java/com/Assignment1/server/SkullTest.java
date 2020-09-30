@@ -25,5 +25,20 @@ public class SkullTest {
     	assertTrue(game.isDead());
     	
     }
+    
+    @Test
+    public void testRow111(){
+    	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Skull", "Skull"};
+    	game.setCurrentRoll(dieRoll);
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setTurn(false);
+    	game.setFortuneCard("SK1");
+    	
+    	assertEquals(0, p.getScore());
+    	assertTrue(p.getGame().isTurnOver());
+    	assertTrue(game.isDead());
+    	
+    }
 
 }
