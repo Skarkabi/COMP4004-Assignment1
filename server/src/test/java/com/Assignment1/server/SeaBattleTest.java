@@ -121,18 +121,34 @@ public class SeaBattleTest {
     	game.setCurrentRoll(dieRoll);
     	PlayerClass p = new PlayerClass("");
     	p.setGame(game);
-    	game.setFortuneCard("SB2300");
+    	game.setFortuneCard("SB3500");
     
-    	assertTrue(game.getSymbolCount("Sword") < 2);
+    	assertTrue(game.getSymbolCount("Sword") < 3);
     	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
     	String[] dieRoll2 = {"Skull", "Skull", "Sword", "Sword", "Sword", "Skull", "Sword", "Skull"};
     	game.setCurrentRoll(dieRoll2);
     
+    	assertTrue(game.getSymbolCount("Sword") >= 3);
     	assertEquals(0, p.getScore());
     	assertTrue(p.getGame().isTurnOver());
     	assertTrue(game.isDead());
+    	
+    }
+    
+    @Test
+    public void testRow128(){
+    	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Sword", "Skull"};
+    	game.setCurrentRoll(dieRoll);
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setFortuneCard("SB41000");
+    
+    	assertTrue(game.getSymbolCount("Sword") >= 4);
+    	assertEquals(1300, p.getScore());
+    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
     	
     }
 
