@@ -152,7 +152,6 @@ public class PlayerClass implements Serializable {
 		diceUsed = 0;
 		if(!(game.isDead())) {
 			int[] rCounts = new int[5];
-			int[] sCounts = new int[2];
 			int sCount = game.getSymbolCount("Sword");
 			int mCount = game.getSymbolCount("Monkey");
 			int pCount = game.getSymbolCount("Parrot");
@@ -205,11 +204,9 @@ public class PlayerClass implements Serializable {
 			
 		}
 		
-		System.out.println("This on " + seperateFC(game.getFortuneCard())[0]);
-		
 		handleFC(seperateFC(game.getFortuneCard())[0]);
-		System.out.println("Here " + tempScore);
 		return tempScore;
+		
 	}
 	
 	private void handleFC(String fc) {
@@ -248,15 +245,9 @@ public class PlayerClass implements Serializable {
 		}
 		
 		String[] seperated = new String[3];
-		System.out.println("AAAAAAA " +fortuneCard.length());
-	
-	
 		seperated[0] = fortuneCard.substring(0, 2);
 		seperated[1] = fortuneCard.substring(2,3);
 		seperated[2] = fortuneCard.substring(3, fortuneCard.length());
-		
-			
-		System.out.println("AAAAAAA " +fortuneCard.length());
 		
 		return seperated;
 		
