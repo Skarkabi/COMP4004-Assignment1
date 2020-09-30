@@ -31,10 +31,11 @@ public class Game implements Serializable {
 	public boolean fullChest(int d) {
 		if((FC.equals("CO") && getSymbolCount("Coin") != 9) || 
 				(FC.equals("DI") && getSymbolCount("Diamond") != 9)) {
+			System.out.println(d);
 			d = d - 1;
 		}
 		
-		System.out.println(d);
+		
 		
 		if(d == 8) {
 			return true;
