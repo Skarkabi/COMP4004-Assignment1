@@ -205,7 +205,9 @@ public class PlayerClass implements Serializable {
 			
 		}
 		
-		handleFC(game.getFortuneCard());
+		System.out.println("This on " + seperateFC(game.getFortuneCard())[0]);
+		
+		handleFC(seperateFC(game.getFortuneCard())[0]);
 		System.out.println("Here " + tempScore);
 		return tempScore;
 	}
@@ -216,12 +218,47 @@ public class PlayerClass implements Serializable {
 			
 		}
 		
+		if(fc.equals("SB")) {
+			handleSB();
+		}
+		
 	}
 	
 	private void handleCA(int newScore) {
 		tempScore = newScore * 2;
 		System.out.println("score " + newScore);
 		
+		
+	}
+	
+	private void handleSB() {
+		int sCount = game.getSymbolCount("Sword");
+		if(sCount >= Integer.parseInt(seperateFC(game.getFortuneCard())[1]) && !game.isDead()) {
+			tempScore = tempScore + Integer.parseInt(seperateFC(game.getFortuneCard())[2]);
+			
+		}else {
+			tempScore = 0;
+		}
+	}
+	
+	private String[] seperateFC(String fortuneCard) {
+		if(fortuneCard.length() <= 2) {
+			String[] together = {fortuneCard};
+			return together;
+		}
+		
+		String[] seperated = new String[3];
+		System.out.println("AAAAAAA " +fortuneCard.length());
+	
+	
+		seperated[0] = fortuneCard.substring(0, 2);
+		seperated[1] = fortuneCard.substring(2,3);
+		seperated[2] = fortuneCard.substring(3, fortuneCard.length());
+		
+			
+		System.out.println("AAAAAAA " +fortuneCard.length());
+		
+		return seperated;
 		
 	}
 	
