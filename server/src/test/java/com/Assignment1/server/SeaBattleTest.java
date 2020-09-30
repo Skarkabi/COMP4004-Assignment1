@@ -15,7 +15,6 @@ public class SeaBattleTest {
     public void testRow118(){
     	PlayerClass p = new PlayerClass("");
     	p.setScore(300);
-    	assertEquals(300, p.getScore());
     	String[] dieRoll = {"Diamond", "Skull", "Skull", "Parrot", "Parrot", "Parrot", "Diamond", "Sword"};
     	game.setCurrentRoll(dieRoll);
     	
@@ -35,7 +34,6 @@ public class SeaBattleTest {
     public void testRow119(){
     	PlayerClass p = new PlayerClass("");
     	p.setScore(500);
-    	assertEquals(500, p.getScore());
     	
     	String[] dieRoll = {"Skull", "Skull", "Skull", "Parrot", "Parrot", "Parrot", "Diamond", "Sword"};
     	game.setCurrentRoll(dieRoll);
@@ -57,7 +55,7 @@ public class SeaBattleTest {
     public void testRow120(){
     	PlayerClass p = new PlayerClass("");
     	p.setScore(1000);
-    	assertEquals(1000, p.getScore());
+ 
     	
     	String[] dieRoll = {"Skull", "Skull", "Skull", "Parrot", "Parrot", "Parrot", "Diamond", "Sword"};
     	game.setCurrentRoll(dieRoll);
