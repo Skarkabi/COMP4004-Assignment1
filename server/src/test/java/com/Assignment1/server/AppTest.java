@@ -392,4 +392,20 @@ public class AppTest
     	
     }
     
+    @Test
+    public void testRow65() {
+    	String[] dieRoll = {"Coin", "Coin", "Coin", "Coin", "Coin", "Coin", "Coin", "Coin"};
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setCurrentRoll(dieRoll);
+    	game.setFortuneCard("CO");
+    	game.setTurn(false);
+    	
+    	assertEquals(9, p.getGame().getSymbolCount("Coin"));
+    	assertEquals(5400, p.getScore());
+    	assertFalse(p.getGame().isDead());
+    	assertTrue(p.getGame().isTurnOver());
+    	
+    }
+    
 }
