@@ -18,7 +18,8 @@ public class Game implements Serializable {
 			}
 		}
 		
-		if((s.equals("Coin") && FC.equals("CO"))) {
+		if((s.equals("Coin") && FC.equals("CO") ||
+				(s.equals("Diamond") && FC.equals("DI")))) {
 			count++;
 			
 		}
