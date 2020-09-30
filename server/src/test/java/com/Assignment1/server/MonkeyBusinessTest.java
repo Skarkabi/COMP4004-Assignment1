@@ -14,7 +14,6 @@ public class MonkeyBusinessTest {
     @Test
     public void testRow85(){
     	PlayerClass p = new PlayerClass("");
-    	p.setScore(300);
     	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Parrot", "Parrot", "Parrot", "Skull", "Coin"};
     	game.setCurrentRoll(dieRoll);
     	
@@ -30,4 +29,34 @@ public class MonkeyBusinessTest {
     	assertFalse(game.isDead());
     	
     }
+    
+    @Test
+    public void testRow86(){
+    	PlayerClass p = new PlayerClass("");
+    	String[] dieRoll = {"Monkey", "Parrot", "Coin", "Diamond", "Parrot", "Monkey", "Coin", "Coin"};
+    	game.setCurrentRoll(dieRoll);
+    	
+    	
+    	p.setGame(game);
+    	game.setFortuneCard("MB");
+    	
+    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
+    	
+    	String[] dieRoll2 = {"Monkey", "Parrot", "Coin", "Sword", "Parrot", "Monkey", "Coin", "Coin"};
+    	game.setCurrentRoll(dieRoll2);
+    	
+    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
+    	
+    	String[] dieRoll3 = {"Monkey", "Parrot", "Diamond", "Sword", "Sword", "Monkey", "Coin", "Coin"};
+    	game.setCurrentRoll(dieRoll3);
+    	game.setTurn(false);
+    	
+    	assertEquals(400, p.getScore());
+    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
+    	
+    }
+    
 }
