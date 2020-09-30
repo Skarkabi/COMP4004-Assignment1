@@ -592,10 +592,13 @@ public class AppTest
     	PlayerClass p = new PlayerClass("");
     	p.setGame(game);
     	game.setCurrentRoll(dieRoll);
-    	game.setFortuneCard("CO");
     	game.setTurn(false);
     	
-    	assertTrue(game.reRoll(dieToReRoll));
+    	assertFalse(game.reRoll(dieToReRoll));
+    	
+    	int[] dieToReRoll2 = {1,3};
+    	
+    	assertTrue(game.reRoll(dieToReRoll2));
     	
     	
     }
