@@ -585,4 +585,20 @@ public class AppTest
     	assertTrue(p.getGame().isTurnOver());
     }
     
+    @Test
+    public void testRow74() {
+    	String[] dieRoll = {"Sword", "Sword", "Sword", "Sword", "Sword", "Sword", "Sword", "Monkey"};
+    	int[] dieToReRoll = {8};
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setCurrentRoll(dieRoll);
+    	game.setFortuneCard("CO");
+    	game.setTurn(false);
+    	
+    	String[] dieReRoll = new String[7];
+    	assertEquals(dieRoll, game.reRoll(dieRoll, dieToReRoll));
+    	
+    	
+    }
+    
 }
