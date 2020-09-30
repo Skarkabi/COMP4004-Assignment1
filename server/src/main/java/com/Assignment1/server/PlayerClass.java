@@ -164,6 +164,12 @@ public class PlayerClass implements Serializable {
 			rCounts[3] = cCount;
 			rCounts[4] = dCount;
 			
+			if(game.getFortuneCard().equals("MB")) {
+				rCounts[1] = mCount + pCount;
+				rCounts[2] = 0;
+				
+			}
+			
 			for(int i = 0; i < rCounts.length; i++) {
 				if(rCounts[i] == 3) {
 					tempScore = tempScore + 100;
