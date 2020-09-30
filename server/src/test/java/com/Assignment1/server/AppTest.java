@@ -595,8 +595,7 @@ public class AppTest
     	game.setFortuneCard("CO");
     	game.setTurn(false);
     	
-    	String[] dieReRoll = new String[7];
-    	assertEquals(dieRoll, game.reRoll(dieRoll, dieToReRoll));
+    	assertTrue(game.reRoll(dieToReRoll));
     	
     	
     }
