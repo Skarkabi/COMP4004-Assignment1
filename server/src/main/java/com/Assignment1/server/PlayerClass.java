@@ -80,6 +80,10 @@ public class PlayerClass implements Serializable {
 		return game;
 	}
 	
+	public void setScore(int s) {
+		score = s;
+	}
+	
 	public int getScore() {
 		score = scoreRound();
 		return score;
