@@ -150,6 +150,8 @@ public class PlayerClass implements Serializable {
 	public int scoreRound() {
 		tempScore = 0;
 		diceUsed = 0;
+		boolean fCHandled = false;
+		
 		if(!(game.isDead())) {
 			int[] rCounts = new int[5];
 			int sCount = game.getSymbolCount("Sword");
@@ -170,6 +172,17 @@ public class PlayerClass implements Serializable {
 				
 			}
 			
+			if(cCount < 3 && !(game.getFortuneCard().equals("CO"))) {
+				System.out.println("Dice Before " +  diceUsed);
+				diceUsed = diceUsed + cCount;
+				System.out.println("Dice After " +  diceUsed);
+			
+			}
+			
+			if(dCount < 3 && !(game.getFortuneCard().equals("DI"))) {
+				diceUsed = diceUsed + dCount;
+			}
+			
 			for(int i = 0; i < rCounts.length; i++) {
 				if(rCounts[i] == 3) {
 					tempScore = tempScore + 100;
@@ -188,12 +201,12 @@ public class PlayerClass implements Serializable {
 					diceUsed = diceUsed + 6;
 					
 				}else if(rCounts[i] == 7) {
-					diceUsed = diceUsed + 7;
 					tempScore = tempScore + 2000;
+					diceUsed = diceUsed + 7;
 					
 				}else if(rCounts[i] >= 8) {
-					diceUsed = diceUsed + 8;
 					tempScore = tempScore + 4000;
+					diceUsed = diceUsed + 8;
 					
 				}
 				
@@ -205,12 +218,29 @@ public class PlayerClass implements Serializable {
 			
 		}
 		
-		if(game.fullChest(diceUsed)) {
-			tempScore = tempScore + 500;
+		System.out.println("dietoUse = " + diceUsed);
+		
+		if(seperateFC(game.getFortuneCard())[0].equals("SB")) {
+			handleFC(seperateFC(game.getFortuneCard())[0]);
+			fCHandled = true;
 			
 		}
 		
-		handleFC(seperateFC(game.getFortuneCard())[0]);
+		if(game.fullChest(diceUsed)) {
+			tempScore = tempScore + 500;
+			if(!(seperateFC(game.getFortuneCard())[0].equals("SB"))) {
+				handleFC(seperateFC(game.getFortuneCard())[0]);
+			}
+			
+			fCHandled = true;
+			
+		}
+		
+		if(!fCHandled) {
+			handleFC(seperateFC(game.getFortuneCard())[0]);
+			
+		}
+
 		return tempScore;
 		
 	}
@@ -236,9 +266,14 @@ public class PlayerClass implements Serializable {
 	
 	private void handleSB() {
 		int sCount = game.getSymbolCount("Sword");
+		System.out.println("Dealing with SB " + sCount);
 		if(sCount >= Integer.parseInt(seperateFC(game.getFortuneCard())[1]) && !game.isDead()) {
 			tempScore = tempScore + Integer.parseInt(seperateFC(game.getFortuneCard())[2]);
-			
+			if(sCount < 3) {
+				diceUsed = diceUsed + sCount;
+				System.out.println("insde Dealing with SB " + diceUsed);
+				
+			}
 		}else {
 			tempScore = 0;
 		}

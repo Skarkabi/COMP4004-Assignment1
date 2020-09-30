@@ -37,7 +37,7 @@ public class Game implements Serializable {
 		
 		
 		
-		if(d == 8) {
+		if(d == 8 && getSymbolCount("Skull") == 0) {
 			return true;
 			
 		}else {
