@@ -28,6 +28,9 @@ public class PlayerClass implements Serializable {
 	private int score = 0;
 	private int tempScore = 0;
 	private int diceUsed = 0;
+	private int deductionToSend = 0;
+	private int deductionReceived = 0;
+	
 	private int[] scoreSheet = new int[7];
 	
 	 public static void main( String[] args ) throws Exception{
@@ -88,6 +91,23 @@ public class PlayerClass implements Serializable {
 		score = scoreRound();
 		return score;
 		
+	}
+	
+	public void setDeductionReieved(int i) {
+		deductionReceived = i;
+		
+	}
+	
+	public int getDeductionReceived() {
+		return deductionReceived;
+	}
+	
+	public void setDeductionToSend(int i) {
+		deductionToSend = i;
+	}
+	
+	public int getDeductionSent() {
+		return deductionToSend;
 	}
 	
 	public void startGame() {

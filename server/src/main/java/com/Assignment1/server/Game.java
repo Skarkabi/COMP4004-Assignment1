@@ -25,6 +25,10 @@ public class Game implements Serializable {
 			
 		}
 		
+		if(s.equals("Skull") && seperateFC(FC)[0].equals("SK")) {
+			count = count + Integer.parseInt(seperateFC(FC)[1]);
+		}
+		
 		
 		return count;
 	}
@@ -127,6 +131,20 @@ public class Game implements Serializable {
 			return false;
 		}
 		
+		
+	}
+	
+	private String[] seperateFC(String fortuneCard) {
+		if(fortuneCard.length() <= 2) {
+			String[] together = {fortuneCard};
+			return together;
+		}
+		
+		String[] seperated = new String[2];
+		seperated[0] = fortuneCard.substring(0, 2);
+		seperated[1] = fortuneCard.substring(2,3);
+		
+		return seperated;
 		
 	}
 
