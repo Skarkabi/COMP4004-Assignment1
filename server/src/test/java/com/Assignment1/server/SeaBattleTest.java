@@ -47,7 +47,7 @@ public class SeaBattleTest {
     	assertEquals(0, p.getScore());
     	assertTrue(game.getSymbolCount("Sword") < 3);
     	assertTrue(p.getGame().isTurnOver());
-    	assertFalse(game.isDead());
+    	assertTrue(game.isDead());
     	
     }
     
@@ -69,7 +69,7 @@ public class SeaBattleTest {
     	assertEquals(0, p.getScore());
     	assertTrue(game.getSymbolCount("Sword") < 4);
     	assertTrue(p.getGame().isTurnOver());
-    	assertFalse(game.isDead());
+    	assertTrue(game.isDead());
     	
     }
     
