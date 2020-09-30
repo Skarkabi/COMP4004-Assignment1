@@ -40,13 +40,13 @@ public class MonkeyBusinessTest {
     	p.setGame(game);
     	game.setFortuneCard("MB");
     	
-    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
     	String[] dieRoll2 = {"Monkey", "Parrot", "Coin", "Sword", "Parrot", "Monkey", "Coin", "Coin"};
     	game.setCurrentRoll(dieRoll2);
     	
-    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
     	String[] dieRoll3 = {"Monkey", "Parrot", "Diamond", "Sword", "Sword", "Monkey", "Coin", "Coin"};
@@ -69,13 +69,13 @@ public class MonkeyBusinessTest {
     	p.setGame(game);
     	game.setFortuneCard("MB");
     	
-    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
     	String[] dieRoll2 = {"Monkey", "Parrot", "Coin", "Monkey", "Parrot", "Monkey", "Coin", "Coin"};
     	game.setCurrentRoll(dieRoll2);
     	
-    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
     	String[] dieRoll3 = {"Monkey", "Parrot", "Parrot", "Monkey", "Parrot", "Monkey", "Parrot", "Sword"};
