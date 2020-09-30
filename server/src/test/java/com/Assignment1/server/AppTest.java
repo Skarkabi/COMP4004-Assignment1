@@ -523,4 +523,27 @@ public class AppTest
     	
     }
     
+    @Test
+    public void testRow71() {
+    	String[] dieRoll = {"Coin", "Monkey", "Skull", "Sword", "Parrot", "Sword", "Parrot", "Skull"};
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setCurrentRoll(dieRoll);
+    	game.setFortuneCard("CO");
+    	
+    	assertNotEquals(4, p.getGame().getSymbolCount("Coin"));
+    	assertFalse(p.getGame().isDead());
+    	assertFalse(p.getGame().isTurnOver());
+    	
+    	String[] dieRoll2 = {"Coin", "Coin", "Skull", "Coin", "Parrot", "Monkey", "Parrot", "Skull"};
+    	game.setCurrentRoll(dieRoll2);
+    	game.setTurn(false);
+    	
+    	assertEquals(4, p.getGame().getSymbolCount("Coin"));
+    	assertEquals(600, p.getScore());
+    	assertFalse(p.getGame().isDead());
+    	assertTrue(p.getGame().isTurnOver());
+    	
+    }
+    
 }
