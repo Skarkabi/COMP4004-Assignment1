@@ -13,11 +13,12 @@ public class SeaBattleTest {
      */
     @Test
     public void testRow118(){
-    	String[] dieRoll = {"Diamond", "Skull", "Skull", "Parrot", "Parrot", "Parrot", "Diamond", "Sword"};
-    	game.setCurrentRoll(dieRoll);
     	PlayerClass p = new PlayerClass("");
     	p.setScore(300);
     	assertEquals(300, p.getScore());
+    	String[] dieRoll = {"Diamond", "Skull", "Skull", "Parrot", "Parrot", "Parrot", "Diamond", "Sword"};
+    	game.setCurrentRoll(dieRoll);
+    	
     	
     	p.setGame(game);
     	game.setFortuneCard("SB2300");
@@ -32,11 +33,13 @@ public class SeaBattleTest {
     
     @Test
     public void testRow119(){
-    	String[] dieRoll = {"Skull", "Skull", "Skull", "Parrot", "Parrot", "Parrot", "Diamond", "Sword"};
-    	game.setCurrentRoll(dieRoll);
     	PlayerClass p = new PlayerClass("");
     	p.setScore(500);
     	assertEquals(500, p.getScore());
+    	
+    	String[] dieRoll = {"Skull", "Skull", "Skull", "Parrot", "Parrot", "Parrot", "Diamond", "Sword"};
+    	game.setCurrentRoll(dieRoll);
+    	
     	
     	p.setGame(game);
     	game.setFortuneCard("SB3500");
@@ -52,11 +55,13 @@ public class SeaBattleTest {
     
     @Test
     public void testRow120(){
-    	String[] dieRoll = {"Skull", "Skull", "Skull", "Parrot", "Parrot", "Parrot", "Diamond", "Sword"};
-    	game.setCurrentRoll(dieRoll);
     	PlayerClass p = new PlayerClass("");
     	p.setScore(1000);
     	assertEquals(1000, p.getScore());
+    	
+    	String[] dieRoll = {"Skull", "Skull", "Skull", "Parrot", "Parrot", "Parrot", "Diamond", "Sword"};
+    	game.setCurrentRoll(dieRoll);
+    	
     	
     	p.setGame(game);
     	game.setFortuneCard("SB41000");
