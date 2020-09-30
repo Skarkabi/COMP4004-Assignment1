@@ -146,7 +146,7 @@ public class SeaBattleTest {
     	String[] dieRoll2 = {"Skull", "Skull", "Sword", "Sword", "Sword", "Skull", "Sword", "Skull"};
     	game.setCurrentRoll(dieRoll2);
     	game.setTurn(false);
-    	
+    	game.setFirstTurn(false);
     
     	assertTrue(game.getSymbolCount("Sword") >= 3);
     	assertEquals(0, p.getScore());
