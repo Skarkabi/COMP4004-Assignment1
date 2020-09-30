@@ -376,4 +376,20 @@ public class AppTest
     	
     }
     
+    @Test
+    public void testRow64() {
+    	String[] dieRoll = {"Parrot", "Parrot", "Parrot", "Parrot", "Parrot", "Parrot", "Sword", "Parrot"};
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setCurrentRoll(dieRoll);
+    	game.setFortuneCard("CO");
+    	game.setTurn(false);
+    	
+    	assertEquals(7, p.getGame().getSymbolCount("Parrot"));
+    	assertEquals(2100, p.getScore());
+    	assertFalse(p.getGame().isDead());
+    	assertTrue(p.getGame().isTurnOver());
+    	
+    }
+    
 }
