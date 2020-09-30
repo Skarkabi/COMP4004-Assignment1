@@ -1,6 +1,7 @@
 package com.Assignment1.server;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -42,6 +43,63 @@ public class Game implements Serializable {
 		}else {
 			return false;
 		}
+	}
+	
+	public String[] firstRoll() {
+		String[] dice = new String [6];
+		dice[0] = "Monkey";
+		dice[1] = "Parrot";
+		dice[2] = "Sword";
+		dice[3] = "Skull";
+		dice[4] = "Coin";
+		dice[5] = "Diamond";
+		
+		String[] rolledDice = new String[7];
+		Random rand = new Random();
+		int upperbound = 6;
+		int side = rand.nextInt(upperbound);
+		
+		for(int i = 0; i < rolledDice.length; i++) {
+			rolledDice[i] = dice[side];
+		
+		}
+		
+		return rolledDice;
+	}
+	
+	public boolean reRoll(int[] dieToReRoll) {
+		boolean reRolled;
+		String[] dice = new String [6];
+		dice[0] = "Monkey";
+		dice[1] = "Parrot";
+		dice[2] = "Sword";
+		dice[3] = "Skull";
+		dice[4] = "Coin";
+		dice[5] = "Diamond";
+		
+		Random rand = new Random();
+		int upperbound = 6;
+		int side = rand.nextInt(upperbound);
+		
+		if(dieToReRoll.length < 2) {
+			reRolled = false;
+			
+		}else {
+			for(int i = 0; i < dieToReRoll.length; i++) {
+				currentRoll[dieToReRoll[i] - 1] = dice[side];
+				
+			}
+			
+			reRolled = true;
+			
+		}
+	
+		for(int i = 0; i < currentRoll.length; i++) {
+			System.out.print(currentRoll[i] + " ");
+			
+		}
+		
+		return reRolled;
 	}
 	
 	
