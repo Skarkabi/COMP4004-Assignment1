@@ -16,9 +16,10 @@ public class TressureChestTest {
     	game.setCurrentRoll(dieRoll);
     	PlayerClass p = new PlayerClass("");
     	p.setGame(game);
-    	game.setFortuneCard("TC");
     	
+    	game.setFortuneCard("TC");
     	game.saveDice(dieToSave);
+    	
     	assertEquals(3, game.getChestDice().size());
     	assertEquals(1, game.getChestDiceCount("Coin"));
     	assertEquals(2, game.getChestDiceCount("Diamond"));
@@ -42,7 +43,6 @@ public class TressureChestTest {
     	game.setCurrentRoll(dieRoll3);
     	assertEquals(1100, p.getScore());
     	
-    
     }
     
     @Test
@@ -72,7 +72,6 @@ public class TressureChestTest {
     	
     	game.setCurrentRoll(dieRoll3);
     	assertEquals(600, p.getScore());
-    	
     
     }
     
