@@ -9,6 +9,8 @@ public class Game implements Serializable {
 	private String[] currentRoll = new String[7];
 	private boolean turnOver = false;
 	private String FC = new String("");
+	private boolean firstTurn = true;
+	private boolean alreadyInSkullIsland = false;
 	
 	public int getSymbolCount(String s) {
 		int count = 0;
@@ -68,6 +70,7 @@ public class Game implements Serializable {
 		
 		}
 		
+		firstTurn = false;
 		return rolledDice;
 	}
 	
@@ -117,18 +120,58 @@ public class Game implements Serializable {
 	 
 	public String[] getOutCome() { return currentRoll; }
 	
+	public void setFirstTurn(boolean b) {
+		firstTurn = b;
+	}
+	
+	public boolean getFirstTurn() { return firstTurn;}
+	
+	public boolean inSkullIsland() {
+		if(firstTurn) {
+			if(getSymbolCount("Skull") > 3) {
+				alreadyInSkullIsland = true;
+			}
+		}
+		
+		return alreadyInSkullIsland; }
+	
+	public void leftSkullIsland() { alreadyInSkullIsland = false; }
+	
+	public void enteredSkullIsland() {alreadyInSkullIsland = true; }
+	
 	public boolean isTurnOver() {
 		isDead();
 		return turnOver;
 	}
 	
+	
+	
 	public boolean isDead() {
-		if(getSymbolCount("Skull") > 2){
-			turnOver = true;
-			return true;
+		if(firstTurn) {
+			if(getSymbolCount("Skull") == 3) {
+				turnOver = true;
+				alreadyInSkullIsland = false;
+				return true;
+			
+			}else {
+				if(getSymbolCount("Skull") > 3) {
+					alreadyInSkullIsland = true;
+					
+				}
+				return false;
+				
+			}
 			
 		}else {
-			return false;
+			System.out.println("I am in here and skullisland is " + alreadyInSkullIsland);
+			if(getSymbolCount("Skull") > 2 && !alreadyInSkullIsland){
+				turnOver = true;
+				return true;
+			
+			}else {
+				return false;
+			}
+			
 		}
 		
 		

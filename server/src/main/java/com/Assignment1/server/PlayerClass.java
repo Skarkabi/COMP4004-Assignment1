@@ -30,6 +30,7 @@ public class PlayerClass implements Serializable {
 	private int diceUsed = 0;
 	private int deductionToSend = 0;
 	private int deductionReceived = 0;
+	int inSkull = 0;
 	
 	private int[] scoreSheet = new int[7];
 	
@@ -88,7 +89,14 @@ public class PlayerClass implements Serializable {
 	}
 	
 	public int getScore() {
-		score = scoreRound();
+		if(scoreRound(1) - deductionReceived > 0) {
+			score = scoreRound(1) - deductionReceived;
+		
+		}else {
+			score = 0;
+			
+		}
+		
 		return score;
 		
 	}
@@ -162,83 +170,95 @@ public class PlayerClass implements Serializable {
 			}
 		}
 		
-		score = score + scoreRound();
+		score = score + scoreRound(2);
 		return game.getOutCome(); 
 		
 	}
 	
-	public int scoreRound() {
+	public int scoreRound(int r) {
 		tempScore = 0;
 		diceUsed = 0;
+		deductionToSend = 0;
 		boolean fCHandled = false;
 		
+		System.out.println(game.isDead());
 		if(!(game.isDead())) {
-			int[] rCounts = new int[5];
-			int sCount = game.getSymbolCount("Sword");
-			int mCount = game.getSymbolCount("Monkey");
-			int pCount = game.getSymbolCount("Parrot");
-			int cCount = game.getSymbolCount("Coin");
-			int dCount = game.getSymbolCount("Diamond");
-			
-			rCounts[0] = sCount;
-			rCounts[1] = mCount;
-			rCounts[2] = pCount;
-			rCounts[3] = cCount;
-			rCounts[4] = dCount;
-			
-			if(game.getFortuneCard().equals("MB")) {
-				rCounts[1] = mCount + pCount;
-				rCounts[2] = 0;
+			if(game.inSkullIsland() || inSkull > 0) {
+				game.enteredSkullIsland();
+				inSkull++;
+				tempScore = score;
+				deductionToSend = deductionToSend + game.getSymbolCount("Skull") * 100;
+				System.out.println("Deduction to send " + deductionToSend); 
 				
-			}
+			}else {
 			
-			if(cCount < 3 && !(game.getFortuneCard().equals("CO"))) {
-				System.out.println("Dice Before " +  diceUsed);
-				diceUsed = diceUsed + cCount;
-				System.out.println("Dice After " +  diceUsed);
+				int[] rCounts = new int[5];
+				int sCount = game.getSymbolCount("Sword");
+				int mCount = game.getSymbolCount("Monkey");
+				int pCount = game.getSymbolCount("Parrot");
+				int cCount = game.getSymbolCount("Coin");
+				int dCount = game.getSymbolCount("Diamond");
 			
-			}
+				rCounts[0] = sCount;
+				rCounts[1] = mCount;
+				rCounts[2] = pCount;
+				rCounts[3] = cCount;
+				rCounts[4] = dCount;
 			
-			if(dCount < 3 && !(game.getFortuneCard().equals("DI"))) {
-				diceUsed = diceUsed + dCount;
-			}
+				if(game.getFortuneCard().equals("MB")) {
+					rCounts[1] = mCount + pCount;
+					rCounts[2] = 0;
+				
+				}
 			
-			for(int i = 0; i < rCounts.length; i++) {
-				if(rCounts[i] == 3) {
-					tempScore = tempScore + 100;
-					diceUsed = diceUsed + 3;
+				if(cCount < 3 && !(game.getFortuneCard().equals("CO"))) {
+					System.out.println("Dice Before " +  diceUsed);
+					diceUsed = diceUsed + cCount;
+					System.out.println("Dice After " +  diceUsed);
+			
+				}
+			
+				if(dCount < 3 && !(game.getFortuneCard().equals("DI"))) {
+					diceUsed = diceUsed + dCount;
+				}
+			
+				for(int i = 0; i < rCounts.length; i++) {
+					if(rCounts[i] == 3) {
+						tempScore = tempScore + 100;
+						diceUsed = diceUsed + 3;
 					
-				}else if(rCounts[i] == 4) {
-					tempScore = tempScore + 200;
-					diceUsed = diceUsed + 4;
+					}else if(rCounts[i] == 4) {
+						tempScore = tempScore + 200;
+						diceUsed = diceUsed + 4;
 					
-				}else if(rCounts[i] == 5) {
-					tempScore = tempScore + 500;
-					diceUsed = diceUsed + 5;
+					}else if(rCounts[i] == 5) {
+						tempScore = tempScore + 500;
+						diceUsed = diceUsed + 5;
 					
-				}else if(rCounts[i] == 6) {
-					tempScore = tempScore + 1000;
-					diceUsed = diceUsed + 6;
+					}else if(rCounts[i] == 6) {
+						tempScore = tempScore + 1000;
+						diceUsed = diceUsed + 6;
 					
-				}else if(rCounts[i] == 7) {
-					tempScore = tempScore + 2000;
-					diceUsed = diceUsed + 7;
+					}else if(rCounts[i] == 7) {
+						tempScore = tempScore + 2000;
+						diceUsed = diceUsed + 7;
 					
-				}else if(rCounts[i] >= 8) {
-					tempScore = tempScore + 4000;
-					diceUsed = diceUsed + 8;
+					}else if(rCounts[i] >= 8) {
+						tempScore = tempScore + 4000;
+						diceUsed = diceUsed + 8;
+					
+					}
 					
 				}
+			
 				
+				int cBonus = 100 * cCount;
+				int dBonus = 100 * dCount;
+				tempScore = tempScore + cBonus + dBonus;
+			
 			}
-			
-			int cBonus = 100 * cCount;
-			int dBonus = 100 * dCount;
-			tempScore = tempScore + cBonus + dBonus;
-			
 		}
 		
-		System.out.println("dietoUse = " + diceUsed);
 		
 		if(seperateFC(game.getFortuneCard())[0].equals("SB")) {
 			handleFC(seperateFC(game.getFortuneCard())[0]);
@@ -261,6 +281,10 @@ public class PlayerClass implements Serializable {
 			
 		}
 
+		if(r == 2) {
+			game.leftSkullIsland();
+		}
+		
 		return tempScore;
 		
 	}

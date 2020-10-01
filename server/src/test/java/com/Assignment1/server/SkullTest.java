@@ -11,7 +11,8 @@ public class SkullTest {
     /**
      * Rigorous Test :-)
      */
-    @Test
+  
+	@Test
     public void testRow110(){
     	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Diamond", "Skull"};
     	game.setCurrentRoll(dieRoll);
@@ -25,7 +26,7 @@ public class SkullTest {
     	
     }
     
-    @Test
+	@Test
     public void testRow111(){
     	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Skull", "Skull"};
     	game.setCurrentRoll(dieRoll);
@@ -41,11 +42,12 @@ public class SkullTest {
     
     @Test
     public void testRow112(){
+    	System.out.println("This test");
     	Game game2 = new Game();
     	Game game3 = new Game();
     	
     	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Skull", "Skull"};
-    	String[] dieRollAlt = {"Monkey", "Sword", "Parrot", "Sword", "Monkey", "Parrot", "Skull", "Skull"};
+    	String[] dieRollAlt = {"Monkey", "Monkey", "Monkey", "Monkey", "Monkey", "Monkey", "Skull", "Skull"};
     	
     	game.setCurrentRoll(dieRoll);
     	game2.setCurrentRoll(dieRollAlt);
@@ -64,10 +66,12 @@ public class SkullTest {
     	
     	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
+    	game.setFirstTurn(false);
     	
     	String[] dieRoll2 = {"Skull", "Skull", "Monkey", "Sword", "Sword", "Sword", "Skull", "Skull"};
-    	game.setCurrentRoll(dieRoll);
+    	game.setCurrentRoll(dieRoll2);
     	
+    	System.out.println("LOOK HERE " );
     	assertEquals(0, p.getScore());
     	assertEquals(600, p.getDeductionSent());
     	
@@ -75,24 +79,24 @@ public class SkullTest {
     	assertFalse(game.isDead());
     	
     	String[]dieRoll3 = {"Skull", "Skull", "Skull", "Sword", "Sword", "Sword", "Skull", "Skull"};
-    	game.setCurrentRoll(dieRoll);
+    	game.setCurrentRoll(dieRoll3);
     	game.setTurn(false);
-    	
-    	p2.setScore(1000);
-    	p3.setScore(2000);
     	
     	assertEquals(0, p.getScore());
     	assertEquals(700, p.getDeductionSent());
+    	
+    	assertEquals(1000, p2.getScore());
+    	assertEquals(1000, p3.getScore());
     	
     	p2.setDeductionReieved(p.getDeductionSent());
     	p3.setDeductionReieved(p.getDeductionSent());
     	
     	assertEquals(300, p2.getScore());
-    	assertEquals(1300, p3.getScore());
+    	assertEquals(300, p3.getScore());
     	
     	assertEquals(0, p.getScore());
     	assertTrue(p.getGame().isTurnOver());
-    	assertTrue(game.isDead());
+    	assertFalse(game.isDead());
     	
     }
     
@@ -102,7 +106,7 @@ public class SkullTest {
     	Game game3 = new Game();
     	
     	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Skull", "Skull", "Skull"};
-    	String[] dieRollAlt = {"Monkey", "Sword", "Parrot", "Sword", "Monkey", "Parrot", "Skull", "Skull"};
+    	String[] dieRollAlt = {"Monkey", "Monkey", "Monkey", "Monkey", "Monkey", "Monkey", "Skull", "Skull"};
     	
     	game.setCurrentRoll(dieRoll);
     	game2.setCurrentRoll(dieRollAlt);
@@ -123,11 +127,8 @@ public class SkullTest {
     	assertFalse(game.isDead());
     	
     	String[] dieRoll2 = {"Sword", "Sword", "Parrot", "Monkey", "Monkey", "Skull", "Skull", "Skull"};
-    	game.setCurrentRoll(dieRoll);
-    	
-    	
-    	p2.setScore(1000);
-    	p3.setScore(2000);
+    	game.setCurrentRoll(dieRoll2);
+    	game.setTurn(false);
     	
     	assertEquals(0, p.getScore());
     	
@@ -135,10 +136,10 @@ public class SkullTest {
     	p3.setDeductionReieved(p.getDeductionSent());
     	
     	assertEquals(500, p2.getScore());
-    	assertEquals(1500, p3.getScore());
+    	assertEquals(500, p3.getScore());
     	assertEquals(500, p.getDeductionSent());
     	assertTrue(p.getGame().isTurnOver());
-    	assertTrue(game.isDead());
+    	assertFalse(game.isDead());
     	
     }
     
@@ -148,7 +149,7 @@ public class SkullTest {
     	Game game3 = new Game();
     	
     	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Skull", "Skull", "Skull"};
-    	String[] dieRollAlt = {"Monkey", "Sword", "Parrot", "Sword", "Monkey", "Parrot", "Skull", "Skull"};
+    	String[] dieRollAlt = {"Monkey", "Monkey", "Monkey", "Monkey", "Monkey", "Monkey", "Skull", "Skull"};
     	
     	game.setCurrentRoll(dieRoll);
     	game2.setCurrentRoll(dieRollAlt);
@@ -169,7 +170,7 @@ public class SkullTest {
     	assertFalse(game.isDead());
     	
     	String[] dieRoll2 = {"Skull", "Monkey", "Monkey", "Sword", "Sword", "Skull", "Skull", "Skull"};
-    	game.setCurrentRoll(dieRoll);
+    	game.setCurrentRoll(dieRoll2);
     	
     	assertEquals(0, p.getScore());
     	assertEquals(500, p.getDeductionSent());
@@ -178,11 +179,8 @@ public class SkullTest {
     	assertFalse(game.isDead());
     	
     	String[]dieRoll3 = {"Skull", "Parrot", "Monkey", "Sword", "Sword", "Skull", "Skull", "Skull"};
-    	game.setCurrentRoll(dieRoll);
+    	game.setCurrentRoll(dieRoll3);
     	game.setTurn(false);
-    	
-    	p2.setScore(1000);
-    	p3.setScore(2000);
     	
     	assertEquals(0, p.getScore());
     	
@@ -190,11 +188,11 @@ public class SkullTest {
     	p3.setDeductionReieved(p.getDeductionSent());
     	
     	assertEquals(500, p2.getScore());
-    	assertEquals(1500, p3.getScore());
+    	assertEquals(500, p3.getScore());
     	assertEquals(500, p.getDeductionSent());
     	
     	assertTrue(p.getGame().isTurnOver());
-    	assertTrue(game.isDead());
+    	assertFalse(game.isDead());
     	
     }
 
