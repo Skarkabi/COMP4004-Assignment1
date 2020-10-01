@@ -19,13 +19,12 @@ public class SorceressTest {
     	PlayerClass p = new PlayerClass("");
     	p.setGame(game);
     	game.setFortuneCard("SO");
-    	game.setTurn(false);
     	String[] originalRoll = game.getOutCome();
     	game.reRoll(dieToReRoll);
     	
     	assertTrue(originalRoll != game.getOutCome());
     	assertEquals(0, game.getSymbolCount("Skull"));
-    	assertTrue(p.getGame().isTurnOver());
+    	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
     }
