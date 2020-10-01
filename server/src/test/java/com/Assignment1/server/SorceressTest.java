@@ -61,4 +61,33 @@ public class SorceressTest {
     	
     }
     
+    @Test
+    public void testRow82(){
+    	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Diamond", "Sword"};
+    	game.setCurrentRoll(dieRoll);
+    	PlayerClass p = new PlayerClass("");
+    	p.setGame(game);
+    	game.setCurrentRoll(dieRoll);
+    	game.setFortuneCard("SO");
+    	
+    	assertFalse(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
+    	
+    	String[] dieRoll2 = {"Skull", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Diamond", "Sword"};
+    	int[] dieToReRoll = {1};
+    	game.setCurrentRoll(dieRoll2);
+    	String[] originalRoll = game.getOutCome();
+
+    	assertEquals(1, game.getSymbolCount("Skull"));
+    	assertFalse(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
+    	
+    	game.reRoll(dieToReRoll);
+    	assertTrue(originalRoll != game.getOutCome());
+    	assertEquals(0, game.getSymbolCount("Skull"));
+    	assertFalse(p.getGame().isTurnOver());
+    	assertFalse(game.isDead());
+    	
+    }
+    
 }
