@@ -11,6 +11,7 @@ public class Game implements Serializable {
 	private String FC = new String("");
 	private boolean firstTurn = true;
 	private boolean alreadyInSkullIsland = false;
+	private int soCount = 0;
 	
 	public int getSymbolCount(String s) {
 		int count = 0;
@@ -74,43 +75,94 @@ public class Game implements Serializable {
 		return rolledDice;
 	}
 	
+	private void checkSor() {
+		if(FC.equals("SO")) {
+			
+		}
+		
+	}
 	public boolean reRoll(int[] dieToReRoll) {
+		System.out.println("Scount first = " + soCount);
 		boolean reRolled;
+		boolean skullExist = false;
 		String[] dice = new String [6];
 		dice[0] = "Monkey";
 		dice[1] = "Parrot";
 		dice[2] = "Sword";
-		dice[3] = "Skull";
-		dice[4] = "Coin";
-		dice[5] = "Diamond";
+		dice[3] = "Coin";
+		dice[4] = "Diamond";
+		dice[5] = "Skull";
 		
 		Random rand = new Random();
 		int upperbound = 6;
 		int side = rand.nextInt(upperbound);
+		int altSide = rand.nextInt(5);
 		
-		if(dieToReRoll.length < 2) {
+		if(soCount != 1) {
+			for(int i =0; i < dieToReRoll.length; i++) {
+				if(currentRoll[dieToReRoll[i] - 1].equals("Skull")) {
+					skullExist = true;
+					System.out.println("Found a skull " + currentRoll[dieToReRoll[i] - 1]);
+				}
+			
+			}
+		}
+		
+		if(dieToReRoll.length < 2 || skullExist) {
 			reRolled = false;
 			
+			
 		}else {
-			for(int i = 0; i < dieToReRoll.length; i++) {
-				currentRoll[dieToReRoll[i] - 1] = dice[side];
+			boolean realRolled = false;
+			int lengthToLoop = dieToReRoll.length;
+			
+			if(dieToReRoll[1] == 9) {
+				lengthToLoop = 1;
 				
 			}
 			
-			reRolled = true;
+			System.out.println("Lengtrh to loop is " + lengthToLoop);
 			
+			for(int i = 0; i < lengthToLoop; i++) {
+				if(soCount == 1 && currentRoll[dieToReRoll[i] - 1].equals("Skull")) {
+					currentRoll[dieToReRoll[i] - 1] = dice[altSide];
+					System.out.println("reRolled is " + currentRoll[dieToReRoll[i] - 1]);
+					soCount = 0;
+					
+				}else if(currentRoll[dieToReRoll[i] - 1].equals("Skull")) {
+					realRolled = false;
+				
+				}else {
+					currentRoll[dieToReRoll[i] - 1] = dice[side];
+					realRolled = true;
+				
+				}
+				
+			}
+			
+			reRolled = realRolled;
+			
+				
 		}
+		
+		System.out.println("Scount end = " + soCount);
 	
-		for(int i = 0; i < currentRoll.length; i++) {
-			System.out.print(currentRoll[i] + " ");
-			
-		}
 		
 		return reRolled;
 	}
 	
 	
-	public void setFortuneCard(String fc) { FC = fc; }
+	public void setFortuneCard(String fc) {
+		if(fc.equals("SO")) {
+			soCount = 1;
+			
+		}else {
+			soCount = 0;
+			
+		}
+		FC = fc;
+		
+	}
 	
 	public void setCurrentRoll(String[] dice) { currentRoll = dice; }
 	

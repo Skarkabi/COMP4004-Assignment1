@@ -2,6 +2,7 @@ package com.Assignment1.server;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -14,16 +15,17 @@ public class SorceressTest {
     @Test
     public void testRow80(){
     	String[] dieRoll = {"Monkey", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Diamond", "Skull"};
-    	int[] dieToReRoll = {8};
+    	int[] dieToReRoll = {8, 9};
     	game.setCurrentRoll(dieRoll);
     	PlayerClass p = new PlayerClass("");
     	p.setGame(game);
     	game.setFortuneCard("SO");
-    	String[] originalRoll = game.getOutCome();
+  
     	assertEquals(1, game.getSymbolCount("Skull"));
     	game.reRoll(dieToReRoll);
     	
-    	assertTrue(originalRoll != game.getOutCome());
+    	
+    	assertFalse(game.getOutCome()[7].equals("Skull"));
     	assertEquals(0, game.getSymbolCount("Skull"));
     	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
@@ -42,20 +44,18 @@ public class SorceressTest {
     	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
-    	String[] dieRoll2 = {"Skull", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Diamond", "Sword"};
-    	int[] dieToReRoll = {1};
+    	String[] dieRoll2 = {"Skull", "Parrot", "Monkey", "Sword", "Sword", "Sword", "Diamond", "Sword"};
+    	int[] dieToReRoll = {1, 9};
     	game.setCurrentRoll(dieRoll2);
-    	String[] originalRoll = game.getOutCome();
-
+    
     	assertEquals(1, game.getSymbolCount("Skull"));
     	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
     	game.reRoll(dieToReRoll);
     	game.setTurn(false);
-    	assertTrue(originalRoll != game.getOutCome());
     	assertEquals(0, game.getSymbolCount("Skull"));
-    	assertEquals(200, p.getScore());
+    	assertNotEquals(0, p.getScore());
     	assertTrue(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
@@ -74,16 +74,14 @@ public class SorceressTest {
     	assertFalse(game.isDead());
     	
     	String[] dieRoll2 = {"Skull", "Monkey", "Monkey", "Sword", "Sword", "Sword", "Diamond", "Sword"};
-    	int[] dieToReRoll = {1};
+    	int[] dieToReRoll = {1, 9};
     	game.setCurrentRoll(dieRoll2);
-    	String[] originalRoll = game.getOutCome();
 
     	assertEquals(1, game.getSymbolCount("Skull"));
     	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
     	
     	game.reRoll(dieToReRoll);
-    	assertTrue(originalRoll != game.getOutCome());
     	assertEquals(0, game.getSymbolCount("Skull"));
     	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
