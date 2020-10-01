@@ -1,18 +1,20 @@
 package com.Assignment1.server;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private String[] currentRoll = new String[7];
+	private String[] currentRoll = new String[8];
 	private boolean turnOver = false;
 	private String FC = new String("");
 	private boolean firstTurn = true;
 	private boolean alreadyInSkullIsland = false;
 	private int soCount = 0;
-	
+	private int[] tChest = new int[8];
+
 	public int getSymbolCount(String s) {
 		int count = 0;
 		
@@ -34,6 +36,22 @@ public class Game implements Serializable {
 		
 		
 		return count;
+	}
+	
+	public int getChestDiceCount(String s) {
+		int count = 0;
+		ArrayList<String> chest = new ArrayList<>();
+		
+		chest = getChestDice();
+		
+		for(int i = 0; i < chest.size(); i++) {
+			if(chest.get(i).equals(s)) {
+				count++;
+			}
+		}
+		
+		return count;
+		
 	}
 	
 	public boolean fullChest(int d) {
@@ -75,12 +93,6 @@ public class Game implements Serializable {
 		return rolledDice;
 	}
 	
-	private void checkSor() {
-		if(FC.equals("SO")) {
-			
-		}
-		
-	}
 	public boolean reRoll(int[] dieToReRoll) {
 		System.out.println("Scount first = " + soCount);
 		boolean reRolled;
@@ -161,6 +173,74 @@ public class Game implements Serializable {
 			
 		}
 		FC = fc;
+		
+	}
+	
+	public ArrayList<String> getChestDice(){
+		ArrayList<String> chest = new ArrayList<>();
+		System.out.println("tChest length is" + tChest.length);
+		for(int i = 0; i < tChest.length; i++) {
+			System.out.println("tChest[" + i + "] is " + tChest[i]);
+			if(tChest[i] != 11 & tChest[i] != 0) {
+				if (tChest[i] == 20) {
+					
+					chest.add(currentRoll[0]);
+					System.out.println("0 added ");
+				}else {
+					chest.add(currentRoll[tChest[i]]);
+					System.out.println(currentRoll[tChest[i]] + " added ");
+					
+				}
+				
+			}
+		}
+		
+		for(int i = 0; i < chest.size(); i++){
+			System.out.println("Chest at " + i + " is " + chest.get(i));
+		}
+		
+		return chest;
+	}
+	
+	public void saveDice(int[] spaces) {
+		boolean findFirst = false;
+		
+		for(int i = 0; i < spaces.length; i++) {
+			if(spaces[i] == 1) {
+				findFirst = true;
+			}
+		}
+		for(int i = 0; i < spaces.length; i++) {
+			tChest[spaces[i] - 1] = spaces[i] - 1;
+		
+		}
+		
+		if(findFirst) {
+			tChest[0] = 20;
+			
+		}
+		
+		System.out.println("Chest length is " + spaces.length);
+		for(int i = 0; i < tChest.length; i++) {
+			System.out.println("Saved This " + tChest[i]);
+		}
+		
+	
+		
+		
+		
+	}
+	
+	public void removeDice(int[] spaces) {
+		for(int i = 0; i < spaces.length; i++) {
+			System.out.println("Removing " + (spaces[i] - 1));
+			tChest[spaces[i] - 1] = 11;
+		}
+		
+		for(int i = 0; i < tChest.length; i++) {
+			System.out.println("After Removing " + (tChest[i]));
+			
+		}
 		
 	}
 	

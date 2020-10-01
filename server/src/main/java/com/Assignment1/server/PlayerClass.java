@@ -299,6 +299,10 @@ public class PlayerClass implements Serializable {
 			handleSB();
 		}
 		
+		if(fc.equals("TC")) {
+			handleTC();
+		}
+		
 	}
 	
 	private void handleCA(int newScore) {
@@ -321,6 +325,56 @@ public class PlayerClass implements Serializable {
 		}else {
 			tempScore = 0;
 		}
+	}
+	
+	private void handleTC() {
+		int chestScore = 0;
+		
+		int[] rCounts = new int[5];
+		int sCount = game.getChestDiceCount("Sword");
+		int mCount = game.getChestDiceCount("Monkey");
+		int pCount = game.getChestDiceCount("Parrot");
+		int cCount = game.getChestDiceCount("Coin");
+		int dCount = game.getChestDiceCount("Diamond");
+	
+		rCounts[0] = sCount;
+		rCounts[1] = mCount;
+		rCounts[2] = pCount;
+		rCounts[3] = cCount;
+		rCounts[4] = dCount;
+	
+		for(int i = 0; i < rCounts.length; i++) {
+			if(rCounts[i] == 3) {
+				chestScore = chestScore + 100;
+			
+			}else if(rCounts[i] == 4) {
+				chestScore = chestScore + 200;
+			
+			}else if(rCounts[i] == 5) {
+				chestScore = chestScore + 500;
+			
+			}else if(rCounts[i] == 6) {
+				chestScore = chestScore + 1000;
+			
+			}else if(rCounts[i] == 7) {
+				chestScore = chestScore + 2000;
+			
+			}else if(rCounts[i] >= 8) {
+				chestScore = chestScore + 4000;
+				
+			}
+			
+		}
+		
+		int cBonus = 100 * cCount;
+		int dBonus = 100 * dCount;
+		chestScore = chestScore + cBonus + dBonus;
+		
+		if(tempScore == 0) {
+			tempScore = chestScore;
+		}
+		
+		
 	}
 	
 	private String[] seperateFC(String fortuneCard) {
