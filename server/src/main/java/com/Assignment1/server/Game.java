@@ -17,9 +17,8 @@ public class Game implements Serializable {
 
 	public int getSymbolCount(String s) {
 		int count = 0;
-		
 		for(int i = 0; i < currentRoll.length; i++) {
-			if(currentRoll[i].equals(s)) {
+			if(currentRoll[i] != null && currentRoll[i].equals(s)) {
 				count++;
 			}
 		}
@@ -79,12 +78,12 @@ public class Game implements Serializable {
 		dice[4] = "Coin";
 		dice[5] = "Diamond";
 		
-		String[] rolledDice = new String[7];
+		String[] rolledDice = new String[8];
 		Random rand = new Random();
 		int upperbound = 6;
-		int side = rand.nextInt(upperbound);
-		
+
 		for(int i = 0; i < rolledDice.length; i++) {
+			int side = rand.nextInt(upperbound);
 			rolledDice[i] = dice[side];
 		
 		}
@@ -94,7 +93,6 @@ public class Game implements Serializable {
 	}
 	
 	public boolean reRoll(int[] dieToReRoll) {
-		System.out.println("Scount first = " + soCount);
 		boolean reRolled;
 		boolean skullExist = false;
 		String[] dice = new String [6];
@@ -114,7 +112,7 @@ public class Game implements Serializable {
 			for(int i =0; i < dieToReRoll.length; i++) {
 				if(currentRoll[dieToReRoll[i] - 1].equals("Skull")) {
 					skullExist = true;
-					System.out.println("Found a skull " + currentRoll[dieToReRoll[i] - 1]);
+
 				}
 			
 			}
@@ -133,19 +131,18 @@ public class Game implements Serializable {
 				
 			}
 			
-			System.out.println("Lengtrh to loop is " + lengthToLoop);
 			
 			for(int i = 0; i < lengthToLoop; i++) {
 				if(soCount == 1 && currentRoll[dieToReRoll[i] - 1].equals("Skull")) {
-					currentRoll[dieToReRoll[i] - 1] = dice[altSide];
-					System.out.println("reRolled is " + currentRoll[dieToReRoll[i] - 1]);
+					currentRoll[dieToReRoll[i] - 1] = dice[rand.nextInt(5)];
 					soCount = 0;
 					
 				}else if(currentRoll[dieToReRoll[i] - 1].equals("Skull")) {
 					realRolled = false;
 				
 				}else {
-					currentRoll[dieToReRoll[i] - 1] = dice[side];
+					currentRoll[dieToReRoll[i] - 1] = dice[rand.nextInt(upperbound)];
+					
 					realRolled = true;
 				
 				}
@@ -156,9 +153,6 @@ public class Game implements Serializable {
 			
 				
 		}
-		
-		System.out.println("Scount end = " + soCount);
-	
 		
 		return reRolled;
 	}
@@ -178,26 +172,19 @@ public class Game implements Serializable {
 	
 	public ArrayList<String> getChestDice(){
 		ArrayList<String> chest = new ArrayList<>();
-		System.out.println("tChest length is" + tChest.length);
 		for(int i = 0; i < tChest.length; i++) {
-			System.out.println("tChest[" + i + "] is " + tChest[i]);
 			if(tChest[i] != 11 & tChest[i] != 0) {
 				if (tChest[i] == 20) {
-					
 					chest.add(currentRoll[0]);
-					System.out.println("0 added ");
+					
 				}else {
 					chest.add(currentRoll[tChest[i]]);
-					System.out.println(currentRoll[tChest[i]] + " added ");
 					
 				}
 				
 			}
 		}
 		
-		for(int i = 0; i < chest.size(); i++){
-			System.out.println("Chest at " + i + " is " + chest.get(i));
-		}
 		
 		return chest;
 	}
@@ -220,26 +207,12 @@ public class Game implements Serializable {
 			
 		}
 		
-		System.out.println("Chest length is " + spaces.length);
-		for(int i = 0; i < tChest.length; i++) {
-			System.out.println("Saved This " + tChest[i]);
-		}
-		
-	
-		
-		
 		
 	}
 	
 	public void removeDice(int[] spaces) {
 		for(int i = 0; i < spaces.length; i++) {
-			System.out.println("Removing " + (spaces[i] - 1));
 			tChest[spaces[i] - 1] = 11;
-		}
-		
-		for(int i = 0; i < tChest.length; i++) {
-			System.out.println("After Removing " + (tChest[i]));
-			
 		}
 		
 	}
@@ -295,7 +268,6 @@ public class Game implements Serializable {
 			}
 			
 		}else {
-			System.out.println("I am in here and skullisland is " + alreadyInSkullIsland);
 			if(getSymbolCount("Skull") > 2 && !alreadyInSkullIsland){
 				turnOver = true;
 				return true;
@@ -307,6 +279,17 @@ public class Game implements Serializable {
 		}
 		
 		
+	}
+	
+	public PlayerClass getWinner(PlayerClass[] pl) {
+		PlayerClass temp = pl[0];
+		for(int i = 1; i < pl.length; i++) {
+			if(temp.getScoreBeforeCalulating() < pl[i].getScoreBeforeCalulating()) {
+				temp = pl[i];
+			}
+		}
+		
+		return temp;
 	}
 	
 	private String[] seperateFC(String fortuneCard) {

@@ -66,7 +66,7 @@ public class SkullTest {
     	
     	assertFalse(p.getGame().isTurnOver());
     	assertFalse(game.isDead());
-    	game.setFirstTurn(false);
+    	
     	
     	String[] dieRoll2 = {"Skull", "Skull", "Monkey", "Sword", "Sword", "Sword", "Skull", "Skull"};
     	game.setCurrentRoll(dieRoll2);
