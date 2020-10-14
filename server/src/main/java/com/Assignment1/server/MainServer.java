@@ -92,6 +92,7 @@ public class MainServer implements Serializable
 	    MainServer server = new MainServer(numPlayer);
 		server.ConnectToClients();   
 		server.gameLoop();
+		System.exit(0);
 			
 	}
 	
@@ -149,7 +150,7 @@ public class MainServer implements Serializable
 			}
 				
 		} catch (IOException ex) {
-			System.out.println("Could not connect 3 players");
+			System.out.println("Could not connect " + numPlayers + " players");
 		
 		}
 		
@@ -160,38 +161,34 @@ public class MainServer implements Serializable
 		int topScore = 0;
 		boolean lastMove = false;
 		try {
-			for(int i = 0; i < playerServer.length; i++) {
-				playerServer[i].sendPlayers(players);
-				
-				System.out.println("Sent to " + i);
-				playerServer[i].receiveConfirmation();
-				
-			}
-			
-			
 			while(!finalTurn) {
 				turnsMade++;
 				
 				if(lastMove) {
 					finalTurn = true;
+					
 				}
 				
-				System.out.println("*****************************************");
+				System.out.println("\n*****************************************");
 				System.out.println("Round number " + turnsMade);
 				for(int i = 0; i < playerServer.length; i++) {
+					playerServer[i].sendPlayers(players);
+					System.out.println("Then sent the players again");
+					if(lastMove) {
+						playerServer[i].sendLastRound(true);
+						System.out.println("It was the last move " + players[i].getName() + " " + players[i].getLastTurn());
+						
+					}else {
+						playerServer[i].sendLastRound(false);
+					}
 					
 					playerServer[i].sendFortuneCard();
-					cardsTaken++;
 					playerServer[i].sendTurnNo(turnsMade);
-					playerServer[i].sendPlayers(players);
+					cardsTaken++;
+					players[i].setScore(playerServer[i].receiveScores()[0]);
 					
-					System.out.println("player is " + players.length);
-					System.out.println("Server is " + playerServer.length);
-					players[i].setScore(playerServer[i].receiveScores()[i]);
+					System.out.println("\nPlayer " + (i + 1) + " completed turn and their score is " + players[i].getScoreBeforeCalulating());
 					
-					System.out.println("Player 1 completed turn and their score is " + players[i].getScoreBeforeCalulating());
-					
-					playerServer[i].receiveConfirmation();
 					
 				}
 				for(int i = 0; i < players.length; i++) {
@@ -201,7 +198,10 @@ public class MainServer implements Serializable
 						
 					}
 					if(players[i].getScoreBeforeCalulating() >= 6000) {
+						System.out.println("Sending end game signal");
+						
 						lastMove = true;
+						
 					}
 				}
 				
@@ -210,17 +210,9 @@ public class MainServer implements Serializable
 			}
 			
 			System.out.println("The Winner is " + winningPlayer.getName() + " With a score of " + winningPlayer.getScoreBeforeCalulating());
-			
-			for(int i = 0; i < players.length; i++) {
-				players[i].setScore(players[i].getScoreBeforeCalulating());
-				
-				//playerServer[i].sendTurnNo(turnsMade);
-				
-				playerServer[i].sendScores(players);
-				
+			for(int i = 0; i < playerServer.length; i++) {
+				playerServer[i].sendWinner("The Winner is Player " + winningPlayer.getPlayerId() + ", " + winningPlayer.getName() + ", With a score of " + winningPlayer.getScoreBeforeCalulating());
 			}
-			
-			
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -271,11 +263,9 @@ public class MainServer implements Serializable
 		}
 		
 		public void sendPlayers(PlayerClass[] pl) {
-			System.out.println("Sending players");
 			try {
 				for(PlayerClass p : pl) {
-					System.out.println(p.getName() + " of " + p.getClass());
-					jOut.writeObject(p);
+					jOut.writeObject(pl);
 					jOut.flush();
 					
 				}
@@ -290,7 +280,8 @@ public class MainServer implements Serializable
 		
 		public void sendFortuneCard() {
 			try {
-				jOut.writeUTF(fortuneCards[cardsTaken]);
+				Object card = fortuneCards[cardsTaken];
+				jOut.writeObject(card);
 				jOut.flush();
 				
 			}catch (IOException ex) {
@@ -300,9 +291,10 @@ public class MainServer implements Serializable
 		}
 		
 		public void sendTurnNo(int r) {
+			
 			try {
-				System.out.println("sending turn number");
-				jOut.writeInt(r);
+				
+				jOut.writeObject(r);
 				jOut.flush();
 			} catch (Exception e) {
 				System.out.println("turn number not sent");
@@ -323,22 +315,49 @@ public class MainServer implements Serializable
 		
 		public int[] receiveScores() {
 			try {
-				int[] sc = new int [1];
+				int[] sc = new int [numPlayers];
 				for(int i = 0; i < 1; i++) {
-					sc[i] = jIn.readInt();
+					Object scc = jIn.readObject();
+					sc[i] = Integer.parseInt(scc.toString());
+					
 				}
 				
-					return sc;
-				
+				return sc;
 				
 			}catch (Exception e) {
-				System.out.println("Score sheet not receicved");
+				System.out.println("Score sheet not receicved scores");
 				e.printStackTrace();
 				
 			}
 			return null;
 			
 		}
+		
+		public void sendLastRound(boolean l) {
+			try {
+				jOut.writeBoolean(l);
+				jOut.flush();
+				
+			} catch (Exception e) {
+				System.out.println("turn number not sent");
+				e.printStackTrace();
+				
+			}
+			
+		}
+		
+		public void sendWinner(String s) {
+			try {
+				jOut.writeObject(s);
+				jOut.flush();
+			
+			}catch (IOException ex) {
+				System.out.println("Players not sent");
+				ex.printStackTrace();
+			}
+		}
+
+		
 		
 		public void sendScores(PlayerClass[] pl) {
 			try {
