@@ -181,12 +181,13 @@ public class PlayerClass implements Serializable {
 		boolean endTurn = false;
 		
 		while(!endTurn) {
+			printScoreCard();
 			if(game.isDead()) {
 				endTurn = true;
 				
 			}else {
 				System.out.println("");
-				printScoreCard();
+				
 				System.out.println("Select an action");
 				if(!endTurn) {
 					System.out.println("(1) Roll All Dice Again");
@@ -469,7 +470,7 @@ public class PlayerClass implements Serializable {
 		System.out.println(" Current Roll: ");
 		System.out.println(" -------  -------  -------  -------  -------  -------  ------- ------- " );
 		System.out.println(" |     |  |     |  |     |  |     |  |     |  |     |  |     | |     |");
-		System.out.println(" | " + roll[0].substring(0,3)  + " | " + " | " + roll[1].substring(0,3) + " | " + " | " + roll[2].substring(0,3) + " | " +  " | " + roll[3].substring(0,3) + " | " + " | " + roll[4].substring(0,3) + " | " +" | " + roll[5].substring(0,3) + " | " + " | " + roll[6].substring(0,3) + " | " + "| " + roll[7].substring(0,3) + "|");
+		System.out.println(" | " + roll[0].substring(0,3)  + " | " + " | " + roll[1].substring(0,3) + " | " + " | " + roll[2].substring(0,3) + " | " +  " | " + roll[3].substring(0,3) + " | " + " | " + roll[4].substring(0,3) + " | " +" | " + roll[5].substring(0,3) + " | " + " | " + roll[6].substring(0,3) + " | " + "| " + roll[7].substring(0,3) + " |");
 		System.out.println(" |     |  |     |  |     |  |     |  |     |  |     |  |     | |     |");
 		System.out.println(" -------  -------  -------  -------  -------  -------  ------- ------- " );
 		System.out.println("");
@@ -611,9 +612,11 @@ public class PlayerClass implements Serializable {
 		
 		public boolean receiveLastTurn() {
 			try {
+				System.out.println(jIn.readObject().getClass());
 				return jIn.readBoolean();
 				
 			}catch (Exception e) {
+				System.out.println(e);
 				e.printStackTrace();
 			}
 			

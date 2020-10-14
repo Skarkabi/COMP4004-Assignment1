@@ -280,6 +280,10 @@ public class MainServer implements Serializable
 		
 		public void sendFortuneCard() {
 			try {
+				if(cardsTaken == 35) {
+					cardsTaken = 0;
+					setFortuneCards();
+				}
 				Object card = fortuneCards[cardsTaken];
 				jOut.writeObject(card);
 				jOut.flush();
