@@ -14,39 +14,32 @@ public class Game implements Serializable {
 	private boolean alreadyInSkullIsland = false;
 	private int soCount = 0;
 	private int[] tChest = new int[8];
+	private int[] diceSavedPosition;
 
 	public int getSymbolCount(String s) {
 		int count = 0;
 		for(int i = 0; i < currentRoll.length; i++) {
-			if(currentRoll[i] != null && currentRoll[i].equals(s)) {
-				count++;
-			}
-		}
-		
-		if((s.equals("Coin") && FC.equals("CO") ||
-				(s.equals("Diamond") && FC.equals("DI")))) {
-			count++;
+			if(currentRoll[i] != null && currentRoll[i].equals(s)) { count++; }
 			
 		}
 		
-		if(s.equals("Skull") && seperateFC(FC)[0].equals("SK")) {
-			count = count + Integer.parseInt(seperateFC(FC)[1]);
-		}
+		if((s.equals("Coin") && FC.equals("CO") ||
+				(s.equals("Diamond") && FC.equals("DI")))) { count++; }
 		
+		if(s.equals("Skull") && seperateFC(FC)[0].equals("SK")) { count = count + Integer.parseInt(seperateFC(FC)[1]);}
 		
 		return count;
+	
 	}
 	
 	public int getChestDiceCount(String s) {
 		int count = 0;
 		ArrayList<String> chest = new ArrayList<>();
-		
 		chest = getChestDice();
 		
 		for(int i = 0; i < chest.size(); i++) {
-			if(chest.get(i).equals(s)) {
-				count++;
-			}
+			if(chest.get(i).equals(s)) { count++; }
+			
 		}
 		
 		return count;
@@ -55,18 +48,11 @@ public class Game implements Serializable {
 	
 	public boolean fullChest(int d) {
 		if((FC.equals("CO") && getSymbolCount("Coin") != 9 && getSymbolCount("Coin") > 1) || 
-				(FC.equals("DI") && getSymbolCount("Diamond") != 9 && getSymbolCount("Diamond") > 1)) {
-			d = d - 1;
-		}
+				(FC.equals("DI") && getSymbolCount("Diamond") != 9 && getSymbolCount("Diamond") > 1)) { d = d - 1; }
 		
+		if(d == 8 && getSymbolCount("Skull") == 0) { return true; }
+		else { return false; }
 		
-		
-		if(d == 8 && getSymbolCount("Skull") == 0) {
-			return true;
-			
-		}else {
-			return false;
-		}
 	}
 	
 	public String[] firstRoll() {
@@ -81,7 +67,6 @@ public class Game implements Serializable {
 		String[] rolledDice = new String[8];
 		Random rand = new Random();
 		int upperbound = 6;
-
 		for(int i = 0; i < rolledDice.length; i++) {
 			int side = rand.nextInt(upperbound);
 			rolledDice[i] = dice[side];
@@ -90,11 +75,14 @@ public class Game implements Serializable {
 		
 		firstTurn = false;
 		return rolledDice;
+		
 	}
 	
 	public boolean reRoll(int[] dieToReRoll) {
+		boolean tCDice = false;
 		boolean reRolled;
 		boolean skullExist = false;
+		
 		String[] dice = new String [6];
 		dice[0] = "Monkey";
 		dice[1] = "Parrot";
@@ -105,44 +93,41 @@ public class Game implements Serializable {
 		
 		Random rand = new Random();
 		int upperbound = 6;
-		int side = rand.nextInt(upperbound);
-		int altSide = rand.nextInt(5);
-		
-		if(soCount != 1) {
-			for(int i =0; i < dieToReRoll.length; i++) {
-				if(currentRoll[dieToReRoll[i] - 1].equals("Skull")) {
-					skullExist = true;
-
+		for(int i = 0; i < dieToReRoll.length; i++) {
+			if(!(diceSavedPosition == null)) {
+				for(int j = 0; j < diceSavedPosition.length ; j++) {
+					if (dieToReRoll[i] == diceSavedPosition[j]) { tCDice = true; }
+					
 				}
-			
-			}
-		}
-		
-		if(dieToReRoll.length < 2 || skullExist) {
-			reRolled = false;
-			
-			
-		}else {
-			boolean realRolled = false;
-			int lengthToLoop = dieToReRoll.length;
-			
-			if(dieToReRoll[1] == 9) {
-				lengthToLoop = 1;
 				
 			}
 			
+		}
+		
+		if(soCount != 1) {
+			for(int i =0; i < dieToReRoll.length; i++) {
+				if(currentRoll[dieToReRoll[i] - 1].equals("Skull")) { skullExist = true; }
+			
+			}
+			
+		}
+		
+		if(dieToReRoll.length < 2 || skullExist || tCDice) { reRolled = false; }
+		
+		else {
+			boolean realRolled = false;
+			int lengthToLoop = dieToReRoll.length;
+			if(dieToReRoll[1] == 9) { lengthToLoop = 1; }
 			
 			for(int i = 0; i < lengthToLoop; i++) {
 				if(soCount == 1 && currentRoll[dieToReRoll[i] - 1].equals("Skull")) {
 					currentRoll[dieToReRoll[i] - 1] = dice[rand.nextInt(5)];
 					soCount = 0;
 					
-				}else if(currentRoll[dieToReRoll[i] - 1].equals("Skull")) {
-					realRolled = false;
+				}else if(currentRoll[dieToReRoll[i] - 1].equals("Skull")) { realRolled = false; }
 				
-				}else {
-					currentRoll[dieToReRoll[i] - 1] = dice[rand.nextInt(upperbound)];
-					
+				else {
+					currentRoll[dieToReRoll[i] - 1] = dice[rand.nextInt(upperbound)];		
 					realRolled = true;
 				
 				}
@@ -150,22 +135,18 @@ public class Game implements Serializable {
 			}
 			
 			reRolled = realRolled;
-			
 				
 		}
 		
 		return reRolled;
+		
 	}
 	
-	
 	public void setFortuneCard(String fc) {
-		if(fc.equals("SO")) {
-			soCount = 1;
-			
-		}else {
-			soCount = 0;
-			
-		}
+		if(fc.equals("SO")) { soCount = 1; }
+		
+		else { soCount = 0; }
+		
 		FC = fc;
 		
 	}
@@ -174,45 +155,39 @@ public class Game implements Serializable {
 		ArrayList<String> chest = new ArrayList<>();
 		for(int i = 0; i < tChest.length; i++) {
 			if(tChest[i] != 11 & tChest[i] != 0) {
-				if (tChest[i] == 20) {
-					chest.add(currentRoll[0]);
-					
-				}else {
-					chest.add(currentRoll[tChest[i]]);
-					
-				}
+				if (tChest[i] == 20) { chest.add(currentRoll[0]); }
+				else { chest.add(currentRoll[tChest[i]]); }
 				
 			}
+			
 		}
 		
-		
 		return chest;
+		
 	}
 	
 	public void saveDice(int[] spaces) {
 		boolean findFirst = false;
+		diceSavedPosition = spaces;
 		
 		for(int i = 0; i < spaces.length; i++) {
-			if(spaces[i] == 1) {
-				findFirst = true;
-			}
+			if(spaces[i] == 1) { findFirst = true; }
+			
 		}
+		
 		for(int i = 0; i < spaces.length; i++) {
 			tChest[spaces[i] - 1] = spaces[i] - 1;
 		
 		}
 		
-		if(findFirst) {
-			tChest[0] = 20;
-			
-		}
-		
+		if(findFirst) { tChest[0] = 20; }
 		
 	}
 	
 	public void removeDice(int[] spaces) {
 		for(int i = 0; i < spaces.length; i++) {
-			tChest[spaces[i] - 1] = 11;
+			tChest[spaces[i] - 1] = 11; 
+			
 		}
 		
 	}
@@ -225,20 +200,18 @@ public class Game implements Serializable {
 	 
 	public String[] getOutCome() { return currentRoll; }
 	
-	public void setFirstTurn(boolean b) {
-		firstTurn = b;
-	}
+	public void setFirstTurn(boolean b) { firstTurn = b; }
 	
 	public boolean getFirstTurn() { return firstTurn;}
 	
 	public boolean inSkullIsland() {
 		if(firstTurn) {
-			if(getSymbolCount("Skull") > 3) {
-				alreadyInSkullIsland = true;
-			}
+			if(getSymbolCount("Skull") > 3) { alreadyInSkullIsland = true; }
 		}
 		
-		return alreadyInSkullIsland; }
+		return alreadyInSkullIsland; 
+		
+	}
 	
 	public void leftSkullIsland() { alreadyInSkullIsland = false; }
 	
@@ -247,9 +220,8 @@ public class Game implements Serializable {
 	public boolean isTurnOver() {
 		isDead();
 		return turnOver;
+		
 	}
-	
-	
 	
 	public boolean isDead() {
 		if(firstTurn) {
@@ -259,10 +231,7 @@ public class Game implements Serializable {
 				return true;
 			
 			}else {
-				if(getSymbolCount("Skull") > 3) {
-					alreadyInSkullIsland = true;
-					
-				}
+				if(getSymbolCount("Skull") > 3) { alreadyInSkullIsland = true; }
 				return false;
 				
 			}
@@ -272,30 +241,28 @@ public class Game implements Serializable {
 				turnOver = true;
 				return true;
 			
-			}else {
-				return false;
-			}
+			}else { return false; }
 			
 		}
-		
 		
 	}
 	
 	public PlayerClass getWinner(PlayerClass[] pl) {
 		PlayerClass temp = pl[0];
 		for(int i = 1; i < pl.length; i++) {
-			if(temp.getScoreBeforeCalulating() < pl[i].getScoreBeforeCalulating()) {
-				temp = pl[i];
-			}
+			if(temp.getScoreBeforeCalulating() < pl[i].getScoreBeforeCalulating()) { temp = pl[i]; }
+			
 		}
 		
 		return temp;
+		
 	}
 	
 	private String[] seperateFC(String fortuneCard) {
 		if(fortuneCard.length() <= 2) {
 			String[] together = {fortuneCard};
 			return together;
+			
 		}
 		
 		String[] seperated = new String[2];

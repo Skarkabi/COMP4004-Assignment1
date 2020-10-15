@@ -5,17 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-
-//This class is used to represent the player
-//It keeps track of a players dice, score, & takes care of all player interactions
 public class PlayerClass implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L; 
 	static Client clientConnection;
 	
@@ -34,38 +26,26 @@ public class PlayerClass implements Serializable {
 	int pLength = 0;
 	boolean finalMove = false;
 	
-	private int[] scoreSheet = new int[7];
-	
-	 public static void main( String[] args ) throws Exception{
-		 Scanner myObj = new Scanner(System.in);
-			System.out.print("What is your name ? ");
-			String name = myObj.next();
-			PlayerClass p = new PlayerClass(name);
-			p.initializePlayers();
-			p.connectToClient();
-			p.startGame();
+	public static void main( String[] args ) throws Exception{
+		Scanner myObj = new Scanner(System.in);
+		System.out.print("What is your name ? ");
+		String name = myObj.next();
+		PlayerClass p = new PlayerClass(name);
+		p.initializePlayers();
+		p.connectToClient();
+		p.startGame();
 			
 	 }
 	 
-	 public int getPlayerId() { return playerId; }
+	public int getPlayerId() { return playerId; }
 	 
-	 public void setLastTurn(boolean t) {
-		 System.out.println("The final move was set to " + t);
-		 finalMove = t; }
+	public void setLastTurn(boolean t) { finalMove = t; }
 	 
-	 public boolean getLastTurn() { 
-		 System.out.println("I am returning this " + finalMove);
-		 return finalMove; }
+	public boolean getLastTurn() { return finalMove; }
 	 
-	 public void connectToClient() {
-		clientConnection = new Client();
-			
-	}
+	public void connectToClient() { clientConnection = new Client(); }
 
-	public void connectToClient(int port) {
-		clientConnection = new Client(port);
-			
-	}
+	public void connectToClient(int port) { clientConnection = new Client(port); }
 	
 	public void initializePlayers() {
 		for (int i = 0; i < 1; i++) {
@@ -73,24 +53,15 @@ public class PlayerClass implements Serializable {
 		}
 	}
 	
-	public PlayerClass getPlayer() {
-		return this;
-	}
+	public PlayerClass getPlayer() { return this; }
 	
 	public String getName() {return name;}
 	
-	public void setGame(Game g) {
-		game = g;
-		
-	}
+	public void setGame(Game g) { game = g; }
 	
-	public Game getGame() {
-		return game;
-	}
+	public Game getGame() { return game; }
 	
-	public void setScore(int s) {
-		score = s;
-	}
+	public void setScore(int s) { score = s; }
 	
 	public int getScore() {
 		if(scoreRound(1) - deductionReceived > 0) {
@@ -105,39 +76,28 @@ public class PlayerClass implements Serializable {
 		
 	}
 	
-	public int getScoreBeforeCalulating() {
-		return score;
-	}
+	public int getScoreBeforeCalulating() { return score; }
 	
-	public void setDeductionReieved(int i) {
-		deductionReceived = i;
-		
-	}
+	public void setDeductionReieved(int i) { deductionReceived = i; }
 	
-	public int getDeductionReceived() {
-		return deductionReceived;
-	}
+	public int getDeductionReceived() {	return deductionReceived; }
 	
-	public void setDeductionToSend(int i) {
-		deductionToSend = i;
-	}
+	public void setDeductionToSend(int i) { deductionToSend = i; }
 	
-	public int getDeductionSent() {
-		return deductionToSend;
-	}
+	public int getDeductionSent() { return deductionToSend; }
 	
 	public void startGame() {
-		// receive players once for names
 		boolean lastRound = false;
 		int round = 0;
+		
 		while (!lastRound) {
 			players = clientConnection.receivePlayer();
 			if(pLength != 1) {
 				players = clientConnection.receivePlayer();
 				
 			}
+			
 			lastRound = clientConnection.receiveLastTurn();
-
 			String fcc = clientConnection.receiveFortuneCard();
 			round = clientConnection.receiveTurnNo();
 
@@ -147,25 +107,9 @@ public class PlayerClass implements Serializable {
 			if (round == -1)
 				break;
 			System.out.println("\n \n \n ********Round Number " + round + "********");
-			//players[0].getGame().setCurrentRoll(players[0].getGame().firstRoll());
-			
 			String[] firstRoll = players[playerId - 1].getGame().firstRoll();
 			players[playerId - 1].getGame().setCurrentRoll(firstRoll);
-			
 			playRound(firstRoll);
-			
-		}
-		
-		int winningScore = 0;
-		String winningName = new String("");
-		int winningId = 0;
-		for(int i = 0; i < players.length; i++) {
-			if(players[i].getScoreBeforeCalulating() > winningScore) {
-				winningScore = players[i].getScoreBeforeCalulating();
-				winningName = players[i].getName();
-				winningId = players[i].getPlayerId();
-				
-			}
 			
 		}
 		
@@ -174,7 +118,6 @@ public class PlayerClass implements Serializable {
 	
 	}
 	
-	
 	public void playRound(String[] roll) {
 		game = players[playerId - 1].getGame();
 		Scanner sc = new Scanner(System.in);
@@ -182,27 +125,34 @@ public class PlayerClass implements Serializable {
 		
 		while(!endTurn) {
 			printScoreCard();
+			
 			if(game.isDead()) {
 				endTurn = true;
 				
 			}else {
 				System.out.println("");
-				
 				System.out.println("Select an action");
+				
 				if(!endTurn) {
 					System.out.println("(1) Roll All Dice Again");
 					System.out.println("(2) Pick Dice To Re-Roll");
 				
 				}
+				
 				System.out.println("(3) Score This Round");
+				if(!endTurn && game.getFortuneCard().equals("TC")){
+					System.out.println("(4) Selct Dice to Hold In Treasure Chest");
+					System.out.println("(5) Remove Dice From Treasure Chest");
+					
+				}
 			
 				int act = sc.nextInt();
-				
 				System.out.println("");
 				if(act == 1 && !endTurn) {
 					boolean rooled = game.reRoll(new int[] {1,2,3,4,5,6,7,8});
 					if(!rooled) {
 						System.out.println("\n CAN NOT ROLL THESE DICE PLEASE CHECK WHICH ONES ARE BEING RE-ROLLED \n");
+					
 					}
 				
 				}
@@ -211,8 +161,8 @@ public class PlayerClass implements Serializable {
 					System.out.print("Which dice would you like to re-roll? ex 1,2,3");
 					Scanner myObj = new Scanner(System.in);
 					String diceToRoll = myObj.next();
+					
 					String[] splitD = diceToRoll.split(",", 0);
-				
 					int[] diceSplit = new int[splitD.length];
 					for(int i = 0; i < splitD.length; i++) {
 						diceSplit[i] = Integer.parseInt(splitD[i]);
@@ -225,16 +175,43 @@ public class PlayerClass implements Serializable {
 				
 					}
 				
+				}
 				
+				if(act == 4 && game.getFortuneCard().equals("TC") && !endTurn) {
+					System.out.println("Which dice would you like to hold? ex 1,2,3");
+					Scanner myObj = new Scanner(System.in);
+					String diceToSave = myObj.next();
+					
+					String[] splitD = diceToSave.split(",", 0);
+					int[] diceSplit = new int[splitD.length];
+					for(int i = 0; i < splitD.length; i++) {
+						diceSplit[i] = Integer.parseInt(splitD[i]);
+						
+					}
+					
+					game.saveDice(diceSplit);
+					
+				}
+				
+				if(act == 5 && game.getFortuneCard().equals("TC") && !endTurn) {
+					System.out.println("Which dice would you like to remove? ex 1,2,3");
+					Scanner myObj = new Scanner(System.in);
+					String diceToSave = myObj.next();
+					
+					String[] splitD = diceToSave.split(",", 0);
+					int[] diceSplit = new int[splitD.length];
+					for(int i = 0; i < splitD.length; i++) {
+						diceSplit[i] = Integer.parseInt(splitD[i]);
+						
+					}
+					
+					game.removeDice(diceSplit);
+					
 				}
 			
 				
-				if(act == 3){
-					endTurn = true;
+				if(act == 3){ endTurn = true; }
 				
-				}
-				
-		
 			}
 		
 		}
@@ -258,9 +235,7 @@ public class PlayerClass implements Serializable {
 				tempScore = score;
 				deductionToSend = deductionToSend + game.getSymbolCount("Skull") * 100;
 			
-				
 			}else {
-			
 				int[] rCounts = new int[5];
 				int sCount = game.getSymbolCount("Sword");
 				int mCount = game.getSymbolCount("Monkey");
@@ -280,14 +255,9 @@ public class PlayerClass implements Serializable {
 				
 				}
 			
-				if(cCount < 3 && !(game.getFortuneCard().equals("CO"))) {
-					diceUsed = diceUsed + cCount;
+				if(cCount < 3 && !(game.getFortuneCard().equals("CO"))) { diceUsed = diceUsed + cCount; }
 			
-				}
-			
-				if(dCount < 3 && !(game.getFortuneCard().equals("DI"))) {
-					diceUsed = diceUsed + dCount;
-				}
+				if(dCount < 3 && !(game.getFortuneCard().equals("DI"))) { diceUsed = diceUsed + dCount; }
 			
 				for(int i = 0; i < rCounts.length; i++) {
 					if(rCounts[i] == 3) {
@@ -317,15 +287,14 @@ public class PlayerClass implements Serializable {
 					}
 					
 				}
-			
 				
 				int cBonus = 100 * cCount;
 				int dBonus = 100 * dCount;
 				tempScore = tempScore + cBonus + dBonus;
 			
 			}
+			
 		}
-		
 		
 		if(seperateFC(game.getFortuneCard())[0].equals("SB")) {
 			handleFC(seperateFC(game.getFortuneCard())[0]);
@@ -338,61 +307,43 @@ public class PlayerClass implements Serializable {
 			fChest = true;
 			if(!(seperateFC(game.getFortuneCard())[0].equals("SB"))) {
 				handleFC(seperateFC(game.getFortuneCard())[0]);
+				
 			}
 			
 			fCHandled = true;
 			
 		}else {
 			fChest = false;
-		}
-		
-		if(!fCHandled) {
-			handleFC(seperateFC(game.getFortuneCard())[0]);
 			
 		}
+		
+		if(!fCHandled) { handleFC(seperateFC(game.getFortuneCard())[0]); }
 
-		if(r == 2) {
-			game.leftSkullIsland();
-		}
+		if(r == 2) { game.leftSkullIsland(); }
 		
 		return tempScore;
 		
 	}
 	
 	private void handleFC(String fc) {
-		if(fc.equals("CA")) {
-			handleCA(tempScore);
-			
-		}
+		if(fc.equals("CA")) { handleCA(tempScore); }
 		
-		if(fc.equals("SB")) {
-			handleSB();
-		}
+		if(fc.equals("SB")) { handleSB(); }
 		
-		if(fc.equals("TC")) {
-			handleTC();
-		}
+		if(fc.equals("TC")) { handleTC(); }
 		
 	}
 	
-	private void handleCA(int newScore) {
-		tempScore = newScore * 2;
-		
-	}
+	private void handleCA(int newScore) { tempScore = newScore * 2; }
 	
 	private void handleSB() {
 		int sCount = game.getSymbolCount("Sword");
 		if(sCount >= Integer.parseInt(seperateFC(game.getFortuneCard())[1]) && !game.isDead()) {
 			tempScore = tempScore + Integer.parseInt(seperateFC(game.getFortuneCard())[2]);
-			if(sCount < 3) {
-				diceUsed = diceUsed + sCount;
-				
-			}
+			if(sCount < 3) { diceUsed = diceUsed + sCount; }
 			
-		}else {
-			tempScore = 0;
-			
-		}
+		}else { tempScore = 0; }
+		
 	}
 	
 	private void handleTC() {
@@ -438,10 +389,7 @@ public class PlayerClass implements Serializable {
 		int dBonus = 100 * dCount;
 		chestScore = chestScore + cBonus + dBonus;
 		
-		if(tempScore == 0) {
-			tempScore = chestScore;
-		}
-		
+		if(tempScore == 0) { tempScore = chestScore; }
 		
 	}
 	
@@ -449,6 +397,7 @@ public class PlayerClass implements Serializable {
 		if(fortuneCard.length() <= 2) {
 			String[] together = {fortuneCard};
 			return together;
+			
 		}
 		
 		String[] seperated = new String[3];
@@ -482,17 +431,41 @@ public class PlayerClass implements Serializable {
 		System.out.println("Activated");
 		System.out.println("");
 		System.out.println(" Total Score if Dice Scored: " + (score + roundScore));
+		
+		if(game.getFortuneCard().equals("TC")) {
+			System.out.println("\nDice Saved In The Treasure Chest: ");
+			for(int i = 0; i < game.getChestDice().size(); i++) {
+				System.out.print(" ------- ");
+			}
+			System.out.println("");
+			for(int i = 0; i < game.getChestDice().size(); i++) {
+				System.out.print(" |     | ");
+			}
+			System.out.println("");
+			for(int i = 0; i < game.getChestDice().size(); i++) {
+				System.out.print(" | " + game.getChestDice().get(i).substring(0,3) + " | ");
+			}
+			System.out.println("");
+			for(int i = 0; i < game.getChestDice().size(); i++) {
+				System.out.print(" |     | ");
+			}
+			System.out.println("");
+			for(int i = 0; i < game.getChestDice().size(); i++) {
+				System.out.print(" ------- ");
+			}
+			System.out.println("");
+
+			
+		}
 		System.out.println("--------------------------------------------------------------------------\n");
 		
 	}
-	
 	
 	public class Client{
 		Socket socket;
 		private ObjectInputStream jIn;
 		private ObjectOutputStream jOut;
-		
-	   
+		   
 		public Client() {
 			try {
 				socket = new Socket("localhost", 3333);
@@ -506,8 +479,8 @@ public class PlayerClass implements Serializable {
 
 			} catch (IOException ex) {
 				System.out.println("Client failed to open");
+				
 			}
-			
 		
 		}
 		
@@ -524,18 +497,21 @@ public class PlayerClass implements Serializable {
 
 			} catch (IOException ex) {
 				System.out.println("Client failed to open");
+				
 			}
+			
 		}
-		
 		
 		public void sendPlayer() {
 			try {
 				jOut.writeObject(getPlayer());
 				jOut.flush();
+				
 			} catch (IOException ex) {
 				System.out.println("Player not sent");
 				ex.printStackTrace();
 			}
+			
 		}
 		
 		public void sendConfirmation() {
@@ -547,16 +523,19 @@ public class PlayerClass implements Serializable {
 				System.out.println("Confirmation not sent");
 				ex.printStackTrace();
 			}
+			
 		}
 		
 		public void sendString(String str) {
 			try{
 				jOut.writeUTF(str);
 				jOut.flush();
+				
 			} catch (IOException ex) {
 				System.out.println("String not sent");
 				ex.printStackTrace();
 			}
+			
 		}
 		
 		public void sendScore(int scores) {
@@ -568,42 +547,41 @@ public class PlayerClass implements Serializable {
 				System.out.println("Score sheet not received");
 				e.printStackTrace();
 			}
+			
 		}
 		
 		public PlayerClass[] receivePlayer() {
 			PlayerClass[] pl;
 			PlayerClass p = new PlayerClass(" ");
 			try {
-				
 				pl = (PlayerClass[]) jIn.readObject();
-					
-				
 				pLength = pl.length;
 				return pl;
 
 			} catch (IOException e) {
 				System.out.println("Player not received");
 				e.printStackTrace();
+				
 			} catch (ClassNotFoundException e) {
 				System.out.println("class not found");
 				e.printStackTrace();
+				
 			}
 			
 			pl = new PlayerClass[1];
 			return pl;
+			
 		}
-		
-		
 		
 		public int receiveScores() {
 			try {
 				System.out.println();
 				return jIn.readInt();
 			
-			
 			}catch(Exception e) {
 				System.out.println("Score sheet not received");
 				e.printStackTrace();
+				
 			}
 			
 			return 0;
@@ -612,15 +590,17 @@ public class PlayerClass implements Serializable {
 		
 		public boolean receiveLastTurn() {
 			try {
-				System.out.println(jIn.readObject().getClass());
+				System.out.print("here ");
 				return jIn.readBoolean();
 				
 			}catch (Exception e) {
-				System.out.println(e);
+				System.out.println("Last Turn not received");
 				e.printStackTrace();
+				
 			}
 			
 			return false;
+		
 		}
 		
 		public String receiveFortuneCard() {
